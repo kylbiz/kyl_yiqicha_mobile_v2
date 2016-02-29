@@ -1,6 +1,6 @@
 Session.setDefault("title", "企业自助查询系统");
 
-var ANIMATION_DURATION = 300;
+var ANIMATION_DURATION = 400;
 
 nextInitiator = null;
 initiator = null;
@@ -10,6 +10,65 @@ Tracker.autorun(function() {
   var currentContext = FlowRouter.current();  
   initiator = nextInitiator;
   nextInitiator = null;
+});
+
+Template.mainLayout.confirm=function(object) {
+  var template = Blaze.toHTMLWithData(Template.confirmTemplate,object);
+  $("#Mount").html(template);
+  
+  var confirmBox=$('#confirm');
+  confirmBox.modal('show');
+  confirmBox.on('hide.bs.modal',function(event) {
+    $(event.currentTarget).detach();
+  });
+
+  return {
+      on: function (callback) {
+          if (callback && callback instanceof Function) {
+              confirmBox.find('#dialogSuccess').click(function () { callback(true);  confirmBox.modal('hide'); });
+              confirmBox.find('#dialogCancel').click(function () { callback(false); confirmBox.modal('hide'); });
+          }
+      }
+  }  
+}
+
+Template.mainLayout.select= function(object) {
+  
+  // object = {
+  //   title: "标题",
+  //   options: [
+  //     {name: "name", value="value"}
+  //   ]
+  // }
+  
+  var template = Blaze.toHTMLWithData(Template.selectTemplate, object);
+  $("#Mount").html(template);
+  
+  var selectBox=$('#select');
+  selectBox.modal('show');
+  selectBox.on('hide.bs.modal',function(event) {
+    $(event.currentTarget).detach();
+  });
+
+  return {
+      on: function (callback) {
+          if (callback && callback instanceof Function) {          
+              selectBox.find('#dialogSuccess').click(function () { 
+                var value = selectBox.find("button.tab-link.active").data("value") || null;
+                callback(true, value);  
+                selectBox.modal('hide');               
+              });
+              selectBox.find('#dialogCancel').click(function () { 
+                callback(false, null); 
+                selectBox.modal('hide'); 
+              });
+          }
+      }
+  }    
+}
+
+$(document).on("click","#select button.tab-link",function(){
+  $(this).addClass("active").siblings().removeClass("active");
 });
 
 Template.mainLayout.onRendered(function(){
@@ -23,7 +82,7 @@ Template.mainLayout.onRendered(function(){
   });
   
   $(document).on("click", ".main-tab .tab-link", function(e) {
-    initiator ="single";    
+    nextInitiator ="single";    
       e.stopImmediatePropagation();
       e.preventDefault();      
     var $target = $(e.currentTarget);

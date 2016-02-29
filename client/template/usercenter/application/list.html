@@ -2,31 +2,51 @@
   <div class="content-block application">
     <div class="list-block list-card">
       <ul>
-        <li class="item-content item-link card">
+        {{#if editor}}
+        <li class="item-content card">         
+          <label class="label-checkbox item-content">
+          <input type="checkbox" name="my-checkbox" value="Movies">
+          <div class="item-media">
+            <i class="icon icon-form-checkbox"></i>
+          </div>   
           <div class="item-inner">
             <div class="item-title">上海开心宝网络科技有限公司</div>
             <div class="item-after">审查中</div>
           </div>
-        </li>
-        <li class="item-content item-link card">
+          </label>          
+        </li>          
+          {{else}}
+          <li class="item-content item-link card" data-path="status">           
+            <div class="item-inner">
+              <div class="item-title">上海开心宝网络科技有限公司</div>
+              <div class="item-after">审查中</div>
+            </div>         
+          </li>                    
+        {{/if}}      
+        <li class="item-content item-link card" data-path="status">
           <div class="item-inner">
             <div class="item-title">上海开心宝网络科技有限公司</div>
             <div class="item-after">核准，可取</div>
           </div>
         </li>
-        <li class="item-content item-link card">
+        <li class="item-content item-link card" data-path="status">
           <div class="item-inner">
             <div class="item-title">上海开心宝网络科技有限公司</div>
             <div class="item-after">审查中</div>
           </div>
-        </li>            
+        </li>                   
       </ul>
     </div>    
   </div>
   <div class="boardwalk">
    <div class="board-content flexbox">
-     <button class="button box left">新增</button>
-     <button class="button box right button-dark">删除</button>
+    {{#if editor}}
+     <button class="button box left button-fill" id="delete">删除</button>
+     <button class="button box right button-dark" id="cancel">取消</button>    
+      {{else}}
+     <button class="button box left" id="create">新增</button>
+     <button class="button box right button-dark" id="editor">删除</button>
+    {{/if}}
    </div>    
-  </div>
+  </div>  
 </Template>

@@ -9,6 +9,7 @@
     {{ > back_navbar home=back}}
   {{/unless}}
   <!-- 工具栏 -->
+  {{#unless noToolbar}}
   <nav class="bar bar-tab">
     <a class="tab-item active" href="/">
       <span class="icon icon-home"></span>
@@ -23,9 +24,12 @@
       <span class="tab-label">个人中心</span>
     </a>
   </nav>
+  {{/unless}}
   <!-- 页面内容区 -->
-  <div class="content">
+  <div class="content" id="content-container">
           {{> Template.dynamic template=main}}
+  </div>
+  <div id="Mount">    
   </div>
 </div>
   

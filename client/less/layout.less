@@ -1,7 +1,6 @@
 @theme-color: #d81918;
 
 //@theme-color: #f6383a;
-
 html,
 body {
   width: 100%;
@@ -2622,5 +2621,303 @@ input[type="button"].button {
     100% {
         transform: rotate(360deg);
     }
+}
+
+/* === Forms === */
+.list-block input[type="text"],
+.list-block input[type="password"],
+.list-block input[type="search"],
+.list-block input[type="email"],
+.list-block input[type="tel"],
+.list-block input[type="url"],
+.list-block input[type="date"],
+.list-block input[type="datetime-local"],
+.list-block input[type="time"],
+.list-block input[type="number"],
+.list-block select,
+.list-block textarea {
+  display: block;
+  width: 100%;
+  height: 2.15rem;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+  -webkit-appearance: none;
+  padding: 0 0 0 .25rem;
+  margin: 0;
+  font-family: inherit;
+  font-size: .85rem;
+  color: #3d4145;
+  background: none;
+  border: none;
+  border-radius: 0 0 0 0;
+  box-shadow: none;
+
+     -moz-appearance: none;
+      -ms-appearance: none;
+          appearance: none;
+}
+.list-block input[type="date"],
+.list-block input[type="datetime-local"] {
+  line-height: 2.2rem;
+}
+.list-block select {
+  -webkit-appearance: none;
+
+     -moz-appearance: none;
+      -ms-appearance: none;
+          appearance: none;
+}
+.list-block .label {
+  vertical-align: top;
+}
+.list-block textarea {
+  height: 5rem;
+  padding-top: .4rem;
+  padding-bottom: .35rem;
+  line-height: 1.4;
+  resize: none;
+}
+.label-switch {
+  position: relative;
+  display: inline-block;
+  width: 2.6rem;
+  height: 1.6rem;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+  vertical-align: middle;
+  cursor: pointer;
+  border-radius: .8rem;
+
+  -ms-flex-item-align: center;
+  -webkit-align-self: center;
+          align-self: center;
+}
+.label-switch .checkbox {
+  position: relative;
+  z-index: 0;
+  width: 2.6rem;
+  height: 1.6rem;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+  -webkit-appearance: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  background: #e5e5e5;
+  border: none;
+  border-radius: .8rem;
+  -webkit-transition-duration: 300ms;
+       -o-transition-duration: 300ms;
+          transition-duration: 300ms;
+
+     -moz-appearance: none;
+      -ms-appearance: none;
+          appearance: none;
+}
+.label-switch .checkbox:before {
+  position: absolute;
+  top: .1rem;
+  left: .1rem;
+  z-index: 1;
+  width: 2.4rem;
+  height: 1.4rem;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+  content: ' ';
+  background: #fff;
+  border-radius: .8rem;
+  -webkit-transition-duration: 300ms;
+       -o-transition-duration: 300ms;
+          transition-duration: 300ms;
+  -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+       -o-transform: scale(1);
+          transform: scale(1);
+}
+.label-switch .checkbox:after {
+  position: absolute;
+  top: .1rem;
+  left: .1rem;
+  z-index: 2;
+  width: 1.4rem;
+  height: 1.4rem;
+  content: ' ';
+  background: #fff;
+  border-radius: 1.4rem;
+  box-shadow: 0 .1rem .25rem rgba(0, 0, 0, .4);
+  -webkit-transition-duration: 300ms;
+       -o-transition-duration: 300ms;
+          transition-duration: 300ms;
+  -webkit-transform: translateX(0px);
+      -ms-transform: translateX(0px);
+       -o-transform: translateX(0px);
+          transform: translateX(0px);
+}
+.label-switch input[type="checkbox"] {
+  position: absolute;
+  z-index: 1;
+  width: 2.6rem;
+  height: 1.6rem;
+  opacity: 0;
+}
+.label-switch input[type="checkbox"]:checked + .checkbox {
+  background: #4cd964;
+}
+.label-switch input[type="checkbox"]:checked + .checkbox:before {
+  -webkit-transform: scale(0);
+      -ms-transform: scale(0);
+       -o-transform: scale(0);
+          transform: scale(0);
+}
+.label-switch input[type="checkbox"]:checked + .checkbox:after {
+  -webkit-transform: translateX(1.1rem);
+      -ms-transform: translateX(1.1rem);
+       -o-transform: translateX(1.1rem);
+          transform: translateX(1.1rem);
+}
+html.android .label-switch input[type="checkbox"] + .checkbox {
+  -webkit-transition-duration: 0;
+       -o-transition-duration: 0;
+          transition-duration: 0;
+}
+html.android .label-switch input[type="checkbox"] + .checkbox:after,
+html.android .label-switch input[type="checkbox"] + .checkbox:before {
+  -webkit-transition-duration: 0;
+       -o-transition-duration: 0;
+          transition-duration: 0;
+}
+.range-slider {
+  position: relative;
+  width: 100%;
+  padding-right: .15rem;
+  padding-left: .15rem;
+  margin-left: -1px;
+  overflow: hidden;
+
+  -ms-flex-item-align: center;
+  -webkit-align-self: center;
+          align-self: center;
+}
+.range-slider input[type="range"] {
+  position: relative;
+  width: 100%;
+  height: 1.4rem;
+  -webkit-appearance: none;
+  margin: .2rem 0 .25rem 0;
+  background: -webkit-gradient(linear, 50% 0, 50% 100%, color-stop(0, #b7b8b7), color-stop(100%, #b7b8b7));
+  background: -webkit-linear-gradient(left, #b7b8b7 0, #b7b8b7 100%);
+  background:      -o-linear-gradient(left, #b7b8b7 0, #b7b8b7 100%);
+  background:         linear-gradient(to right, #b7b8b7 0, #b7b8b7 100%);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% .1rem;
+  outline: 0;
+
+     -moz-appearance: none;
+      -ms-appearance: none;
+          appearance: none;
+}
+.range-slider input[type="range"]:after {
+  position: absolute;
+  top: 50%;
+  left: -.25rem;
+  z-index: 1;
+  width: .25rem;
+  height: .1rem;
+  margin-top: -1px;
+  content: ' ';
+  background: #fff;
+}
+.range-slider input[type="range"]::-webkit-slider-thumb {
+  position: relative;
+  width: 1.4rem;
+  height: 1.4rem;
+  -webkit-appearance: none;
+  background: none;
+  border: none;
+
+     -moz-appearance: none;
+      -ms-appearance: none;
+          appearance: none;
+}
+.range-slider input[type="range"]::-webkit-slider-thumb:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 1.4rem;
+  height: 1.4rem;
+  content: ' ';
+  background: #fff;
+  border-radius: 1.4rem;
+  box-shadow: 0 .1rem .2rem rgba(0, 0, 0, .4);
+}
+.range-slider input[type="range"]::-webkit-slider-thumb:before {
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  z-index: 1;
+  width: 100rem;
+  height: .1rem;
+  margin-top: -1px;
+  content: ' ';
+  background: #0894ec;
+}
+label.label-checkbox {
+  cursor: pointer;
+}
+label.label-checkbox i.icon-form-checkbox {
+  position: relative;
+  width: 1.1rem;
+  height: 1.1rem;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+  border: 1px solid #c7c7cc;
+  border-radius: 1.1rem;
+}
+label.label-checkbox i.icon-form-checkbox:after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: .6rem;
+  height: .45rem;
+  margin-top: -.2rem;
+  margin-left: -.3rem;
+  content: ' ';
+}
+label.label-checkbox input[type="checkbox"],
+label.label-checkbox input[type="radio"] {
+  display: none;
+}
+label.label-checkbox input[type="checkbox"]:checked + .item-media i.icon-form-checkbox,
+label.label-checkbox input[type="radio"]:checked + .item-media i.icon-form-checkbox {
+  background-color: #0894ec;
+  border: none;
+}
+label.label-checkbox input[type="checkbox"]:checked + .item-media i.icon-form-checkbox:after,
+label.label-checkbox input[type="radio"]:checked + .item-media i.icon-form-checkbox:after {
+  background: no-repeat center;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20x%3D'0px'%20y%3D'0px'%20viewBox%3D'0%200%2012%209'%20xml%3Aspace%3D'preserve'%3E%3Cpolygon%20fill%3D'%23ffffff'%20points%3D'12%2C0.7%2011.3%2C0%203.9%2C7.4%200.7%2C4.2%200%2C4.9%203.9%2C8.8%203.9%2C8.8%203.9%2C8.8%20'%2F%3E%3C%2Fsvg%3E");
+  background-size: .6rem .45rem;
+}
+label.label-checkbox {
+  -webkit-transition-duration: 300ms;
+       -o-transition-duration: 300ms;
+          transition-duration: 300ms;
+}
+html:not(.watch-active-state) label.label-checkbox:active,
+label.label-checkbox.active-state {
+  background-color: #d9d9d9;
+  -webkit-transition: 0ms;
+       -o-transition: 0ms;
+          transition: 0ms;
+}
+html:not(.watch-active-state) label.label-checkbox:active .item-inner,
+label.label-checkbox.active-state .item-inner {
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+}
+.smart-select select {
+  display: none;
 }
 

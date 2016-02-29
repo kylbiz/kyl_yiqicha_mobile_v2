@@ -32,4 +32,17 @@ Template.history.onCreated(function(){
 
 Template.application.onCreated(function(){
   Session.set("title","名称状态提醒");
+});
+Template.application_empty.onCreated(function(){
+  Session.set("title","名称状态提醒")
+})
+
+Template.application_create_group.onRendered(function(){
+  Session.set("title","增加名称");
+});
+Template.application_create.onRendered(function(){
+  Session.set("title","增加名称");
+});
+Template.application_content.onRendered(function(){
+  Session.set("title","名称状态提醒详情"); 
 })

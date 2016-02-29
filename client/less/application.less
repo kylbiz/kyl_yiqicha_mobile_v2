@@ -1,5 +1,6 @@
 @import (reference) 'bracket.import.less';
 
+
 .application {
   .list-card.list-block .card {
       padding-left: 0;
@@ -15,26 +16,105 @@
   }
 }
 
-.boardwalk {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 3rem;
-  .board-content {
+//名称状态提醒详情
+.app_content {
+  .status-container {
     .flexbox();
-    .flex-align-center();    
+    .flex-center();
+    .flex-center-content();
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    margin-right: -1.5rem;
+  }
+  .card-title {
+    margin: 0.75rem auto;        
+  }
+  .box {
+    border: solid 1px #eee;
+    border-radius: .2rem;
+    box-shadow: 0 .05rem .2rem rgba(0, 0, 0, .3);
+    border-radius: .32rem; 
+    margin-bottom: 0.75rem;    
+    .flexbox();  
+    .auto-flex();
+    margin-right: 1.5rem;
+    >.inner {
+      padding-top: 100%;
+      position: relative;
+      width: 100%;
+      height: 1px;        
+      >.content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;  
+        text-align: center;
+        .flexbox();       
+        .flex-align-center();
+        .flex-center();
+        .flex-center-content();  
+        -webkit-box-orient: vertical;
+        -moz-box-orient: vertical;
+        -ms-flex-direction: column;
+        -webkit-flex-direction: column;
+        flex-direction: column;        
+      }
+    }
+  }
+  .icon {
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat; 
+    margin: 0;
+    width: 1.6em;
+    height: 1.6em;
+    margin-bottom: 2px;
+  }
+  .icon-success {
+    background-image: url(/images/icon/success.png);
+
   }  
-   .box {
-     width: 100%;
-     height: auto !important;
-     line-height: 2.33333333;
-   }  
-   .board-content {
-     padding-left: 0.75rem;
-     padding-right: 0.75rem;
-   }
-   .board-content .left {
-     margin-right: 10px;
-   }    
+  .icon-wait {
+    background-image: url(/images/filter_warn.png);
+  }
+}
+
+.app_create {
+  .ui.input {
+    margin: .5rem;
+    .flexbox();
+  }  
+  i.icon.input {
+      background-size: contain;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-image: url(/images/icon/input.png);
+      margin-left: 0.75rem !important;
+      width: 1em !important;
+  }  
+}
+
+.app_factory {
+  .board-content {
+    margin-top: 1.25rem;
+    button {
+      width: 100%;
+    }
+  }
+  .item-title .main {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .item-title .sub {
+    font-size: 14px;
+    color: #999;
+  }  
+}
+
+.ui-input {
+  .ui.input {
+    margin: .5rem;
+    .flexbox();
+  }    
 }

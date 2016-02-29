@@ -1,0 +1,144 @@
+@default-background-color:#d81918;
+.page {
+  .ui-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    // display: -webkit-box;
+    -webkit-box-orient: horizontal;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+    background: rgba(0, 0, 0, .6);
+    display: none;
+    
+    .button {
+      height: auto !important;
+      line-height: 2.33333333;      
+    }
+  }
+  .ui-dialog.in {
+    display: -webkit-box !important;
+    display: box !important;
+  }
+  .ui-dialog-content {
+    border-radius: 6px;
+    width: 270px;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    pointer-events: auto;
+    background-color: rgba(253, 253, 253, .95);
+    position: relative;
+    font-size: 16px
+  }
+  .ui-dialog-box {
+    min-height: 71px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    padding: 18px;
+    display: -webkit-box;
+    display: box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+    -webkit-box-orient: vertical
+  }
+  .ui-dialog-box>h4 {
+    margin: 0.75rem 0;
+    font-weight: 500;
+    width: 100%;
+    text-align: center
+  }
+  .ui-dialog-box>div, .ui-dialog-box>ul {
+    width: 100%
+  }
+  .ui-dialog-control button {
+    border: none !important;
+  }
+  .ui-dialog-control {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    display: -webkit-box;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-box-align: center;
+    border-top: 1px solid #e0e0e0 !important;
+    height: 42px;
+    line-height: 42px
+  }  
+  .ui-dialog-close:before {
+    font-family: iconfont !important;
+    font-size: 32px;
+    line-height: 44px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: .2px;
+    display: block;
+    color: rgba(0, 0, 0, .5);
+    content: "";
+    color: #828282;
+    display: block;
+    line-height: 32px;
+    position: absolute;
+    top: 3px;
+    right: 3px
+  }
+  .ui-dialog-close:active {
+    opacity: .5
+  }
+  .ui-dialog-control button {
+    //color: #00a5e0;
+    color: @default-background-color;
+    text-align: center;
+    border: none !important;
+    border-right: 1px #e0e0e0 solid !important;
+    width: 100%;
+    line-height: 42px;
+    background: transparent;
+    display: block;
+    margin: 0!important;
+    -webkit-box-flex: 1
+  }
+  .ui-dialog-control button:active {
+    background-color: rgba(0, 0, 0, .1) !important
+  }
+  .ui-dialog-control button:first-child {
+    border-bottom-left-radius: 6px
+  }
+  .ui-dialog-control button:last-child {
+    border-right: 0;
+    border-bottom-right-radius: 6px
+  }
+  @media screen and (-webkit-min-device-pixel-ratio:2) {
+    .ui-dialog-control {
+      position: relative;
+      border: 0;
+      background-position: left top;
+      background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.5, transparent), color-stop(0.5, #e0e0e0));
+      background-repeat: repeat-x;
+      -webkit-background-size: 100% 1px
+    }
+    .ui-dialog-control button {
+      border-right: 0;
+      background-position: right top;
+      background-image: -webkit-gradient(linear, left top, right top, color-stop(0.5, transparent), color-stop(0.5, #e0e0e0));
+      background-repeat: repeat-y;
+      -webkit-background-size: 1px 100%
+    }
+    .ui-dialog-control button:last-child {
+      background: 0 0
+    }
+  }
+
+  .ui-dialog-control {
+    height: auto;
+  }
+
+  .ui-dialog-control button {
+    margin: 0;
+    padding: 0;
+  }  
+}
+

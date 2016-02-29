@@ -102,7 +102,30 @@ FlowRouter.route('/analysis_result',{
 
 FlowRouter.route('/application',{
     action: function() {
-        BlazeLayout.render('mainLayout',{main:"application"})
+        BlazeLayout.render('mainLayout',{main:"application"});
     }
 });
 
+FlowRouter.route('/status',{
+    action: function() {
+        BlazeLayout.render('mainLayout',{main:"application_content"});
+    }
+});
+
+FlowRouter.route('/empty',{
+    action: function() {
+        BlazeLayout.render('mainLayout',{main:"application_empty",noToolbar:"true"});
+    }
+});
+
+FlowRouter.route('/create',{
+    action: function() {
+        BlazeLayout.render('mainLayout',{main:"application_create"});   
+    }  
+});
+
+FlowRouter.route('/factory',{
+    action: function() {
+        BlazeLayout.render('mainLayout',{main:"application_create_group"});     
+    }  
+});

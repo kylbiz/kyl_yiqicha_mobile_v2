@@ -1,0 +1,33 @@
+<Template name="confirmTemplate">
+  <div class="ui-dialog" id="confirm" role="dialog">
+    <div class="ui-dialog-content ui-board-shockholder">
+      <div class="ui-dialog-box field">
+          <h4>{{title}}</h4>          
+      </div>
+      <div class="ui-dialog-control ui-btn-group">
+        <button type="button" data-role="button" class="select" id="dialogSuccess">确认</button>
+        <button type="button" data-role="button" id="dialogCancel">取消</button>
+      </div>
+    </div>
+  </div>  
+</Template>
+
+
+<template name="selectTemplate">
+  <div class="ui-dialog" id="select" role="dialog">
+    <div class="ui-dialog-content ui-board-shockholder">
+      <div class="ui-dialog-box field">
+          <h4>{{title}}</h4>
+          <div class="buttons-row">
+            {{#each $mapped options}}
+              <button class="{{#if $first}}active{{/if}} tab-link button" data-value={{value}}>{{name}}</button>
+            {{/each}}                                      
+          </div>          
+      </div>
+      <div class="ui-dialog-control ui-btn-group">
+        <button type="button" data-role="button" class="select" id="dialogSuccess">确认</button>
+        <button type="button" data-role="button" id="dialogCancel">取消</button>
+      </div>
+    </div>
+  </div>
+</template>

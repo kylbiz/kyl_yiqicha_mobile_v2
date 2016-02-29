@@ -10,6 +10,9 @@ html {
   font-size: 16px!important;  
 }
 
+.list-block.card {
+  overflow: hidden;
+}
 /*
 html {
   font-size: 20px!important;
@@ -31,3 +34,37 @@ html {
   }
 }
 */
+
+#content-container {
+    -webkit-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;
+    -o-transition: all 200ms ease-out;
+    transition: all 200ms ease-out;
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.load_content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;  
+}
+
+.label-checkbox.item-content {
+  width: 100%;
+}
+.label-checkbox .item-inner {
+  margin-left: 0 !important;
+  padding-left: 0.25rem !important;
+}
+.page .content-block-title {
+  color: #333 !important;
+  margin: 1rem .5rem !important;
+  font-size: 16px;
+  font-weight: 700;
+}
