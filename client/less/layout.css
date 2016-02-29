@@ -1,0 +1,33 @@
+.list-block .item-link .item-inner {
+  background-repeat: no-repeat;
+  background-position: 97% center;
+  background-position: -webkit-calc(100% - .5rem) center;
+  background-position:         calc(100% - .5rem) center;
+  background-size: .7rem;
+}
+
+html {
+  font-size: 16px!important;  
+}
+
+/*
+html {
+  font-size: 20px!important;
+  
+}
+@media only screen and (min-width: 400px) {
+  html {
+    font-size: 21.33333333px !important;
+  }
+}
+@media only screen and (min-width: 414px) {
+  html {
+    font-size: 22.08px !important;
+  }
+}
+@media only screen and (min-width: 480px) {
+  html {
+    font-size: 25.6px !important;
+  }
+}
+*/

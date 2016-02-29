@@ -1,0 +1,3 @@
+Template.usercenter.onRendered(function(){
+
+});

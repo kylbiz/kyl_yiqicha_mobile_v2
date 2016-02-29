@@ -1,0 +1,51 @@
+@import (reference) 'bracket.import.less';
+
+/* == filter_navbar == */
+.filter_navbar {
+  .flexbox();
+  .flex-align-center();
+  .flex-justify-content();
+  .ui.input {
+    width: 100%;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;    
+    
+  }
+  .ui.input input {
+    padding: 0.35rem;
+    font-size: 14px;    
+  }
+  .filter-btn {
+    font-weight: 500;
+    font-size: 16px;    
+  }
+  a {
+    &:focus {
+      color: inherit;
+    }
+  }
+}
+
+.bar-nav a {
+    color: #fff;
+    white-space: nowrap;
+}
+
+.filter_navbar {
+  a:focus,a:active {
+    color: #fff;
+  }  
+}
+.filter_navbar .icon.icon-back {
+  top: 0 !important;
+  margin-top: 0 !important;
+}
+
+.filter_navbar .pull-right {
+  .icon {
+    margin-top: 0;
+    padding-top: 0;   
+    margin-right:0;
+  }
+
+}

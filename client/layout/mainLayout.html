@@ -1,0 +1,38 @@
+<template name="mainLayout">   
+ <div class="page">
+  <!-- 标题栏 -->
+  <header class="bar bar-nav top">
+    <h1 class="title">一企查</h1>
+  </header>    
+  {{> Template.dynamic template=top}}
+  {{#unless top}}
+    {{ > back_navbar home=back}}
+  {{/unless}}
+  <!-- 工具栏 -->
+  <nav class="bar bar-tab">
+    <a class="tab-item active" href="/">
+      <span class="icon icon-home"></span>
+      <span class="tab-label">首页</span>
+    </a>
+    <a class="tab-item" href="/message">
+      <span class="icon icon-message"></span>
+      <span class="tab-label">通知</span>
+    </a>
+    <a class="tab-item" href="/usercenter">
+      <span class="icon icon-usercenter"></span>
+      <span class="tab-label">个人中心</span>
+    </a>
+  </nav>
+  <!-- 页面内容区 -->
+  <div class="content">
+          {{> Template.dynamic template=main}}
+  </div>
+</div>
+  
+</template>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+	<title>一企查</title>
+</head>

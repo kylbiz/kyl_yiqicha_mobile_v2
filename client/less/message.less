@@ -1,0 +1,71 @@
+@import (reference) 'bracket.import.less';
+.page {
+  .list-block {
+    .item-content {
+      .item-box {
+        position: relative;
+        .flexbox();
+        .flex-start-content();
+        .flex-align-center();
+        width: 100%;
+        min-height: 2.2rem;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+      .item-title {
+        color: #333;
+        font-weight: 500;    
+      }      
+    }
+  }
+}
+
+.message.list-block {
+  .item-inner {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .item-content {
+    padding-left: .5rem;
+    padding-right: .5rem;
+    border-bottom: 1px solid #e7e7e7;
+    >.item-inner {
+      border-bottom: none;
+    }
+  }
+  .item-box>.item-media {
+    margin-right: .5rem;
+  }
+  .item-title> span {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #333;
+    font-size: 12px;
+  }
+  .item-after {
+    color: #999;
+    font-size: 12px;
+    //    padding-right: 2em;
+    //    margin-right: 1rem;    
+  }
+  i.icon {
+    width: 2em;
+    height: 2em;
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+  .icon-success {
+    background-image: url(/images/icon/success.png);
+  }
+  .icon-warn {
+    background-image: url(/images/icon/warn.png);
+  }
+  .icon-danger {
+    background-image: url(/images/icon/danger.png);
+  }
+}

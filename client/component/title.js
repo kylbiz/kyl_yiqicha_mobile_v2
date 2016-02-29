@@ -1,0 +1,35 @@
+Template.login.onCreated(function(){
+  Session.set("title","登录");
+})
+Template.register.onCreated(function(){
+  Session.set("title","注册");
+});
+Template.reset.onCreated(function(){
+  Session.set("title","重置密码");
+});
+Template.modify.onCreated(function(){
+  Session.set("title","修改密码");
+});
+
+Template.home.onCreated(function(){
+  Session.set("title","企业自助查询系统");
+});
+Template.message.onCreated(function(){
+  Session.set("title","通知");
+});
+Template.usercenter.onCreated(function(){
+  Session.set("title","个人中心");
+});
+Template.about.onCreated(function(){
+  Session.set("title","关于一企查");
+});
+Template.userinfo.onCreated(function(){
+  Session.set("title","详情");
+});
+Template.history.onCreated(function(){
+  Session.set("title","查询记录");
+});
+
+Template.application.onCreated(function(){
+  Session.set("title","名称状态提醒");
+})

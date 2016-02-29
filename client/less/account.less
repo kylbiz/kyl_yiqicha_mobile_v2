@@ -1,0 +1,103 @@
+@import (reference) 'bracket.import.less';
+
+/* == account == */
+
+.account {
+  text-align: center;
+  h2 {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 30px;
+  }
+  
+}
+/* == login == */
+
+.circle-box-container {
+  margin-top: 15px;
+}
+.circle-box {
+  display: inline-block;
+  .auto-size(60px,60px);
+  .line-height(60px);
+  vertical-align: middle;
+  position: relative;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 1px;
+  margin-right: 20px;
+  &:last-child {
+    margin-right: 0;
+  }
+  i.icon {
+    font-size: 2em;
+    vertical-align: -2px;
+  }
+}
+
+@blue:#69a5e1;
+@green:#8ec81c;
+@red:#f56467;
+
+.blue-icon {
+  color: @blue;
+  border-color: @blue;
+}
+
+.green-icon {
+  color: @green;
+  border-color: @green;
+}
+
+.red-icon {
+  color: @red;
+  border-color: @red;
+}
+
+.login {
+  .button.button-fill {
+    width: 100%;
+  }
+  .divider {
+    margin-top: @divider !important;
+  }
+}
+
+/* == register reset modify ==*/
+.page {
+  .register,.reset,.modify {
+    
+    .button {
+      height: auto;
+      border: none;
+      -webkit-box-flex: 1;
+      width: 100%;     
+    }
+    .ui[class*="left icon"].input > input.padding-right {
+      padding-right: 0 !important;
+    }
+    .dark-button {
+      margin-left: 5px;
+      max-width: 180px;       
+    }
+    .divider {
+      margin-top: @divider !important;
+    }
+    
+  }
+  .content .reset .button.button-fill {
+      height: auto !important;
+      line-height: 1.35rem !important;    
+  }
+  .content .reset .button.button-fill span {
+      line-height: 2.33333333 !important
+  }  
+  .content .modify .button.button-fill {
+      height: auto !important;
+      line-height: 1.35rem !important;    
+  }
+  .content .modify .button.button-fill span {
+      line-height: 2.33333333 !important
+  }    
+  
+}

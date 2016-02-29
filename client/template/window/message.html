@@ -1,0 +1,66 @@
+<Template name="message">
+{{#if message}}
+  <div class="list-block message">
+    <ul>
+      <li class="item-content">     
+        <div class="item-inner">
+  
+          <div class="item-box">
+            <div class="item-media">
+              <i class="icon icon-success"></i>
+            </div>                 
+            <div class="item-title">
+              <span>开业啦（上海）</span>
+              <span>已通过审核</span>  
+            </div>            
+          </div>
+                                   
+          <div class="item-after">
+            2016-02-19 16:00
+          </div>
+        </div>
+      </li>
+      <li class="item-content">         
+        <div class="item-inner">
+          <div class="item-box">
+            <div class="item-media">
+              <i class="icon icon-warn"></i>
+            </div>
+            <div class="item-title">
+              <span>开业啦网络科技有限公司</span>
+              <span>已通过审核</span>       
+            </div>                          
+          </div>                 
+          <div class="item-after">
+            2016-02-19 16:00
+          </div>
+        </div>
+      </li>    
+      <li class="item-content">       
+        <div class="item-inner">
+          <div class="item-box">
+            <div class="item-media">
+              <i class="icon icon-danger"></i>
+            </div>             
+            <div class="item-title">
+              <span>开业啦（上海）网络科技有限公司</span>
+              <span>已通过审核</span>       
+            </div>            
+          </div>            
+          <div class="item-after">
+            2016-02-19 16:00
+          </div>
+        </div>
+      </li>        
+    </ul>
+  </div>  
+{{/if}}
+
+{{#unless message}}
+  {{#notify_template title="状态提醒" icon_name="icon-alert"}}
+    <p class="text-center">
+      暂时没有相关内容  
+    </p>    
+  {{/notify_template}}
+{{/unless}}
+</Template>
