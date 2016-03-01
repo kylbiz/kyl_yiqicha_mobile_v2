@@ -1,9 +1,6 @@
 <template name="mainLayout">   
  <div class="page">
-  <!-- 标题栏 -->
-  <header class="bar bar-nav top">
-    <h1 class="title">一企查</h1>
-  </header>    
+  <!-- 标题栏 -->   
   {{> Template.dynamic template=top}}
   {{#unless top}}
     {{ > back_navbar home=back}}

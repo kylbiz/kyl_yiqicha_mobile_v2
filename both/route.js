@@ -129,3 +129,10 @@ FlowRouter.route('/factory',{
         BlazeLayout.render('mainLayout',{main:"application_create_group"});     
     }  
 });
+
+FlowRouter.triggers.exit([
+      function(context) {
+         Session.set('fromWhere', context.path);
+      }
+   ]
+);
