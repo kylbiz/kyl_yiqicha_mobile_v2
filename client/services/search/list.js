@@ -75,14 +75,10 @@ Template.search_list.events({
   }
 })
 
-
-
-
-
-
-
-
-
-
-
-
+Template.search_list.onRendered(function(){
+  $(".filter-content li.item-content").click(function(){
+      var text = $(this).find(".item-title").text();
+      alert(text);
+      $(".filter-content").fadeOut();
+  });
+})
