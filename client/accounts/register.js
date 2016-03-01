@@ -18,12 +18,10 @@ Template.register.onRendered(function(){
 
 $('.ui.form').form('reset');
   
+clearInterval();    
 setInterval(function() {
   if (Session.get('codeTime') > 0) {
     Session.set('codeTime', Session.get('codeTime') - 1);
-  }
-  else {
-    clearInterval();  
   }
 }, 1000); 
   
