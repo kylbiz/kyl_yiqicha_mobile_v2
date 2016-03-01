@@ -12,7 +12,7 @@ FlowRouter.route("/analysis",{
 
 FlowRouter.route('/message', {
     action: function() {
-        BlazeLayout.render('mainLayout',{main:"message",top:"navbar"});
+        BlazeLayout.render('mainLayout',{main:"message",top:"message_navbar"});
     }
 });
 
