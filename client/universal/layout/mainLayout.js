@@ -114,7 +114,7 @@ Template.mainLayout.onRendered(function(){
       }
       else if(content) {
          var home =$(this).data("home");
-         BlazeLayout.render('mainLayout',{main:content,top:"render_back_navbar"});
+         BlazeLayout.render('mainLayout',{main:content,top:"render_back_navbar"});                 
          return false;  
       }
   });

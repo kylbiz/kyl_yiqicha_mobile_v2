@@ -1,5 +1,5 @@
 <Template name="application">
-  <div class="content-block application">
+  <div class="content-block application load_content">
     <div class="list-block list-card">
       <ul>
         {{#if editor}}
@@ -44,8 +44,14 @@
      <button class="button box left button-fill" id="delete">删除</button>
      <button class="button box right button-dark" id="cancel">取消</button>    
       {{else}}
-     <button class="button box left" id="create">新增</button>
-     <button class="button box right button-dark" id="editor">删除</button>
+     <button class="button box left" id="create">
+       <i class="icon circle add"></i>
+       新增
+     </button>
+     <button class="button box right button-dark" id="editor">
+       <i class="icon circle remove"></i>
+       删除
+      </button>
     {{/if}}
    </div>    
   </div>  
