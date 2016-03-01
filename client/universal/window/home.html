@@ -12,10 +12,10 @@
       <div class="card-content">
         <div class="card-content-inner">
           <div class="ui left icon input">
-            <input type="text" placeholder="请输入企业名称或字号">
+            <input type="text" class="keywords" placeholder="请输入企业名称或字号">
             <i class="input icon"></i>
           </div>       
-          <a class="button button-danger button-fill" href="/search_list">
+          <a class="button button-danger button-fill searchCredit" href="#">
             马上查询
           </a>
         </div>
@@ -26,7 +26,7 @@
         注：本系统只提供公司字号查询参考，查名结果以当地工商信息为准
       </div>
       <div class="light">
-        累计查询次数：48629
+        累计查询次数：{{searchTimes}}
       </div>
     </div>
   </div>

@@ -11,11 +11,13 @@
 <Template name="back_navbar">
   <header class="bar bar-nav">    
      {{#unless home}}
-        <a class="icon icon-back router pull-left" href="#">      
+        <a class="icon-back router pull-left" href="#"> 
+          <i class="icon back-icon"></i>     
         </a>       
      {{/unless}}
      {{#if home}}
-        <a class="icon icon-back router pull-left" href="/{{home}}">      
+        <a class="icon-back router pull-left" href="/{{home}}">   
+          <i class="icon back-icon"></i>        
         </a>         
      {{/if}}      
      {{>navbar_title}}
@@ -24,16 +26,18 @@
 
 <Template name="render_back_navbar">
   <header class="bar bar-nav">    
-    <a class="icon icon-back pull-left reload" href="#">      
-    </a>             
+    <a class="icon-back reload pull-left" href="#"> 
+      <i class="icon back-icon"></i>     
+    </a>                 
     {{>navbar_title}}
   </header>  
 </Template>
    
 <Template name="history_navbar">
-  <header class="bar bar-nav">    
-    <a class="icon icon-back pull-left" href="/usercenter">      
-    </a>             
+  <header class="bar bar-nav">       
+    <a class="icon-back router pull-left" href="/usercenter"> 
+      <i class="icon back-icon"></i>     
+    </a>               
     {{>navbar_title}}
     <button class="button pull-right">全部清空</button>
   </header>   
@@ -48,8 +52,9 @@
             
 <Template name="search_navbar">
   <header class="bar bar-nav filter_navbar">    
-    <a class="icon icon-back pull-left" href="/usercenter">      
-    </a>             
+    <a class="icon-back router pull-left" href="/usercenter"> 
+      <i class="icon back-icon"></i>     
+    </a>            
     <div class="ui input">
       <input type="text" placeholder="请输入企业名称或字号">
     </div>
@@ -59,8 +64,9 @@
       
 <Template name="filter_navbar">
   <header class="bar bar-nav filter_navbar">    
-    <a class="icon icon-back pull-left" href="/usercenter">      
-    </a>             
+    <a class="icon-back router pull-left" href="/usercenter"> 
+      <i class="icon back-icon"></i>     
+    </a>        
     <div class="ui input">
       <input type="text" placeholder="请输入企业名称或字号">
     </div>
