@@ -22,38 +22,24 @@
     </div>
     <div class="list-block list-card">
       <ul>
-        <li class="item-content card item-path" data-path="search_result">
-          <div class="item-inner">
-            <div class="item-title">
-              <div class="segement-title">上海开心宝网络科技有限公司</div>
-              <div class="segement-content">
-                地址：上海市张江高科技园区郭守敬路351号 2号楼A653-14室
+        {{#each creditLists}}
+          <li class="item-content card item-path" data-path="search_result">
+            <div class="item-inner">
+              <div class="item-title">
+                <div class="segement-title">{{companyName}}</div>
+                <div class="segement-content">
+                  地址：{{address}}
+                </div>
+              </div>
+              <div class="item-after">
+                <div class="text-center">
+                  <div><span class="highlight">确立</span></div>
+                  <div>企业状态</div>
+                </div>
               </div>
             </div>
-            <div class="item-after">
-              <div class="text-center">
-                <div><span class="highlight">确立</span></div>
-                <div>企业状态</div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="item-content card" data-path="search_result">
-          <div class="item-inner">
-            <div class="item-title">
-              <div class="segement-title">上海开心宝网络科技有限公司</div>
-              <div class="segement-content">
-                地址：上海市张江高科技园区郭守敬路351号 2号楼A653-14室
-              </div>
-            </div>
-            <div class="item-after">
-              <div class="text-center">
-                <div><span class="highlight">确立</span></div>
-                <div>企业状态</div>
-              </div>
-            </div>
-          </div>
-        </li>
+          </li>
+        {{/each}}
       </ul>
     </div>
 

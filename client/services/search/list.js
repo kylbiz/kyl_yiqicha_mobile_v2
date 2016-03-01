@@ -29,13 +29,28 @@ Template.search_list.onRendered(function(){
         flag=false;
       }
     }
-  });  
-  
+  });   
+});
+
+Template.search_list.onCreated(function() {
+  var self = this;
+  self.autorun(function() {
+    var sid = FlowRouter.getQueryParam("sid") || "";
+    var keywords = FlowRouter.getQueryParam("key") || "";
+    self.subscribe("creditLists", {sid: sid, keywords: keywords});
+  })
 
 });
+
+
 
 Template.search_list.helpers({
   'count':function(){
       return Session.get("count");    
+  },
+  "creditLists": function() {
+    var sid = FlowRouter.getQueryParam("sid") || "";
+    var keywords = FlowRouter.getQueryParam("key") || "";    
+    return Credit.find({companyName: new RegExp(keywords)}) || {};
   }
 });

@@ -13,7 +13,7 @@ html {
 .list-block.card {
   overflow: hidden;
 }
-/*
+
 html {
   font-size: 20px!important;
   
@@ -33,7 +33,7 @@ html {
     font-size: 25.6px !important;
   }
 }
-*/
+
 
 #content-container {
     -webkit-transition: all 200ms ease-out;
