@@ -1,9 +1,9 @@
 <Template name="search_list">
   <div class="result-bar">
     <div class="pull-left">
-      <i class="icon icon-search-bar"></i>开心
+      <i class="icon icon-search-bar"></i>{{keywords}}
     </div>
-    <div class="pull-right">已存在<span class="highlight">65</span>家</div>
+    <div class="pull-right">已存在<span class="highlight">{{creditRecords.creditNum}}</span>家</div>
   </div>
   <div class="content-block search_list">
     <div class="card main-card">
@@ -16,24 +16,24 @@
        </div>        
       </div>
       <div class="card-footer row">
-        <div class="pull-left col-50">字号: <span>开心</span></div>
-        <div class="pull-right col-50">已存在<span class="highlight">65</span>家</div>
+        <div class="pull-left col-50">字号: <span>{{keywords}}</span></div>
+        <div class="pull-right col-50">已存在<span class="highlight">{{creditRecords.creditNum}}</span>家</div>
       </div>
     </div>
     <div class="list-block list-card">
       <ul>
         {{#each creditLists}}
-          <li class="item-content card item-path" data-path="search_result">
+          <li class="item-content card creditItem" data-credit="{{company.companyId}}">
             <div class="item-inner">
               <div class="item-title">
                 <div class="segement-title">{{companyName}}</div>
                 <div class="segement-content">
-                  地址：{{address}}
+                  地址：{{company.address}}
                 </div>
               </div>
               <div class="item-after">
                 <div class="text-center">
-                  <div><span class="highlight">确立</span></div>
+                  <div><span class="highlight">{{company.companyStatus}}</span></div>
                   <div>企业状态</div>
                 </div>
               </div>

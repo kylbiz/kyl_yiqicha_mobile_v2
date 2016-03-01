@@ -141,11 +141,13 @@ Meteor.methods({
           if(allpageNo !== 0) {
             creditLists.forEach(function(credit) {
               var companyName = credit.company.companyName || "";
+              var companyId = credit.company.companyId || "";
               credit.updateTime = new Date();
               
               Fiber(function() {
                 Credit.update({
-                  companyName: companyName
+                  companyName: companyName,
+                  companyId:companyId
                 }, {
                   $set: credit
                 }, {

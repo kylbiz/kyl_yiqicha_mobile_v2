@@ -32,13 +32,15 @@ Template.search_list.onRendered(function(){
   });   
 });
 
-Template.search_list.onCreated(function() {
+Template.search_list.onRendered(function() {
   var self = this;
-  self.autorun(function() {
+  // self.autorun(function() {
     var sid = FlowRouter.getQueryParam("sid") || "";
     var keywords = FlowRouter.getQueryParam("key") || "";
-    self.subscribe("creditLists", {sid: sid, keywords: keywords});
-  })
+
+    self.subscribe("creditLists", {keywords: keywords});
+    self.subscribe("creditRecords", {keywords: keywords, sid:sid});
+  // })
 
 });
 
@@ -52,5 +54,35 @@ Template.search_list.helpers({
     var sid = FlowRouter.getQueryParam("sid") || "";
     var keywords = FlowRouter.getQueryParam("key") || "";    
     return Credit.find({companyName: new RegExp(keywords)}) || {};
+  },
+  "keywords": function() {
+    var keywords = FlowRouter.getQueryParam("key") || "";
+    return keywords;
+  },
+  "creditRecords": function() {
+    var sid = FlowRouter.getQueryParam("sid") || "";
+    var keywords = FlowRouter.getQueryParam("key") || "";    
+    return SearchRecords.findOne({keywords: keywords, sid: sid}) || {};    
   }
 });
+
+
+Template.search_list.events({
+  "click li.creditItem": function(event) {
+    var companyId = $(event.currentTarget).attr("data-credit") || "";
+
+    FlowRouter.go("/credit/detail", {}, {cid: companyId});
+  }
+})
+
+
+
+
+
+
+
+
+
+
+
+
