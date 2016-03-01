@@ -1,6 +1,6 @@
 Session.setDefault("title", "企业自助查询系统");
 
-var ANIMATION_DURATION = 400;
+var ANIMATION_DURATION = 200;
 
 nextInitiator = null;
 initiator = null;
@@ -106,10 +106,10 @@ Template.mainLayout.onRendered(function(){
     
   $(document).on("click",".item-link",function(e) { 
       var link = $(this).data("path"); 
-      var content = $(this).data("mounter");      
+      var content = $(this).data("mounter");     
       if(link) {
          link = "/" + link;
-         FlowRouter.go(link);    
+         FlowRouter.go(link);   
          return false;
       }
       else if(content) {

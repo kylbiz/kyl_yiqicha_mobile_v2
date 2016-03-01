@@ -27,3 +27,5 @@ semantic:ui-icon
 semantic:ui-form
 semantic:ui-input
 semantic:ui-label
+
+fastclick
