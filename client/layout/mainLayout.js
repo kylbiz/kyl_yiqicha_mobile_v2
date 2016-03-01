@@ -79,12 +79,16 @@ Template.mainLayout.onRendered(function(){
       $target.parent().find(".active").removeClass("active");
       $target.addClass("active");
     }
+//    if($target.parent().hasClass("bar-tab")) {
+//      nextInitiator ="single";       
+//    }
   });
   
   $(document).on("click", ".main-tab .tab-link", function(e) {
+    initiator ="single"; 
     nextInitiator ="single";    
-      e.stopImmediatePropagation();
-      e.preventDefault();      
+//      e.stopImmediatePropagation();
+//      e.preventDefault();      
     var $target = $(e.currentTarget);
     $target.addClass("active").siblings().removeClass("active");    
   });   
