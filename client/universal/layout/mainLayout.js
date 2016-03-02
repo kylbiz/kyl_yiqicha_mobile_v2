@@ -12,6 +12,42 @@ Tracker.autorun(function() {
   nextInitiator = null;
 });
 
+mainApp = {}
+
+mainApp.alert=function(object) {
+  var object ={title:object};
+  var template = Blaze.toHTMLWithData(Template.alertTemplate,object);
+  $("#Mount").html(template);
+  
+  var alertBox=$('#alert');
+  alertBox.modal('show');
+  alertBox.on('hide.bs.modal',function(event) {
+    $(event.currentTarget).detach();
+  });
+}
+
+mainApp.myPrompt = function(object,text){
+  var field = $(object).closest(".field").addClass("error");  
+  var tmp = $(field).find(".prompt");
+  if ($(tmp).first().text()==text) {
+    mainApp.alert(text);
+    return false;
+  }
+  tmp.remove();
+  var prompt= $('<div/>')                                                                                  
+        .addClass('ui basic red pointing prompt label')                                                         
+        .html(text).appendTo(field);   
+}
+
+mainApp.removePrompt = function(object){
+  //$('[name="' + object +'"]')  
+  var field = $(object).closest(".field").addClass("error");  
+  field.removeClass("error");
+  field.find(".prompt").remove();  
+}
+
+
+
 Template.mainLayout.confirm=function(object) {
   var template = Blaze.toHTMLWithData(Template.confirmTemplate,object);
   $("#Mount").html(template);
@@ -30,17 +66,6 @@ Template.mainLayout.confirm=function(object) {
           }
       }
   }  
-}
-
-Template.mainLayout.alert=function(object) {
-  var template = Blaze.toHTMLWithData(Template.alertTemplate,object);
-  $("#Mount").html(template);
-  
-  var alertBox=$('#alert');
-  alertBox.modal('show');
-  alertBox.on('hide.bs.modal',function(event) {
-    $(event.currentTarget).detach();
-  });
 }
 
 Template.mainLayout.select= function(object) {
