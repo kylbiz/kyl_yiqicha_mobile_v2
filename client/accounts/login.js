@@ -7,18 +7,20 @@ $.fn.form.settings.rules.isPhone = function (value) {
   return pattern.test(value); 
 }
 
-$.fn.form.settings.rules.isMatchAccount = function (value) {
-  //call
-  //...return
-  return true;
-} 
-
-
-
 $('.ui.form')
   .form({
     inline : true,  
     onSuccess : function(event, fields) {
+      var phone = fields.phone;
+      var password = fields.password;
+      
+      Meteor.loginWithPassword(phone, password, function (err) {
+        if (err) {
+          mainApp.alert("用户名或密码错误,请再次登录!")    
+        } else {
+          FlowRouter.go(Session.get("redirectAfterLogin") || "/");
+        }
+      })      
     },
     onFailure : function(formErrors, fields) {
       
@@ -43,15 +45,10 @@ $('.ui.form')
             type:'empty',
             prompt : '请输入密码'
           },
-//          {
-//            type:'',
-//            prompt : '请输入正确的密码'
-//          },           
           {
-            type:'isMatchAccount',
-            prompt: '用户名或密码错误'
-          }
-          
+            type: 'minLength[6]',
+            prompt: '必须输入6为以上字符密码'
+          }          
         ]          
       },
     }
@@ -60,41 +57,5 @@ $('.ui.form')
   
 //  $form = $('.get.example form'),  
   
-})
-
-
-// ---------------------------------------------------------------
-
-//验证手机号码
-function verifyPhone(phone) {
-  var phoneReg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
-  if (!phoneReg.test(phone)) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
-
-Template.login.events({
-  "click .loginBtn": function(event) {
-    var phone = $("#phone").val() || "";
-    var password = $("#password").val() || "";
-
-    if(!verifyPhone(phone)) {
-      // alert("请正确输入手机号！");
-    } else if(!password || password.length < 6) {
-      // alert("必须输入6为以上字符密码！");
-    } else {
-      Meteor.loginWithPassword(phone, password, function (err) {
-        if (err) {
-          alert("用户名或密码错误,请再次登录!")    
-        } else {
-          FlowRouter.go(Session.get("redirectAfterLogin") || "/");
-        }
-      })
-    }
-  }
-})
-
+});
 

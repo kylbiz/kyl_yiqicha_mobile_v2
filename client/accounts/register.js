@@ -20,14 +20,13 @@ Template.register.events({
     if(!phoneReg.test(phone)) {  
       mainApp.myPrompt($("#phone"),"请输入正确的手机号");      
     } else {
+      
+      Session.set('codeTime', 60);      
       Meteor.call('genereateUserCode', phone, function (err, codeValue) {
         if (!err && codeValue && codeValue['codestatus'] && codeValue['message']) {
           if (codeValue['codestatus'] === 0 || codeValue['codestatus'] === 2) {
             var error = codeValue['message'] || "未知错误";
             mainApp.alert(error);
-          }
-          else {
-        		Session.set('codeTime', 60);             
           }
         } else {
             var error = codeValue['message'] || "未知错误";          
@@ -68,6 +67,9 @@ Template.register.onRendered(function () {
     .form({
       inline: true,
       onSuccess: function (event, fields) {
+        var phone = fields.phone;
+        var password = fields.password;
+
         Meteor.call('UserRegistration', fields, function (err, registitionValue) {
           if (!err && registitionValue && (registitionValue['code'] === 0)) {
             Meteor.call('sendRegistrationInfos', phone);
@@ -104,11 +106,11 @@ Template.register.onRendered(function () {
         },
         password: {
           rules: [
-            {
+          {
               type: 'empty',
               prompt: '请输入密码'
           },
-            {
+          {
               type: 'minLength[6]',
               prompt: '必须输入6为以上字符密码'
           }
@@ -118,15 +120,15 @@ Template.register.onRendered(function () {
           rules: [
             {
               type: 'empty',
-              prompt: '请输入确认密码'
+              prompt: '请再次输入密码'
           },
             {
               type: 'match[password]',
-              prompt: '必须输入6为以上字符密码'
+              prompt: '两次输入密码不符'
           }
         ]
         },
-        verifycode: {
+        code: {
           rules: [
             {
               type: 'empty',
