@@ -19,10 +19,6 @@ $('.ui.form')
   .form({
     inline : true,  
     onSuccess : function(event, fields) {
-      console.log(fields);
-      console.log(fields.password);
-      //do something...
-      alert("success");
     },
     onFailure : function(formErrors, fields) {
       
@@ -65,3 +61,40 @@ $('.ui.form')
 //  $form = $('.get.example form'),  
   
 })
+
+
+// ---------------------------------------------------------------
+
+//验证手机号码
+function verifyPhone(phone) {
+  var phoneReg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+  if (!phoneReg.test(phone)) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+
+Template.login.events({
+  "click .loginBtn": function(event) {
+    var phone = $("#phone").val() || "";
+    var password = $("#password").val() || "";
+
+    if(!verifyPhone(phone)) {
+      // alert("请正确输入手机号！");
+    } else if(!password || password.length < 6) {
+      // alert("必须输入6为以上字符密码！");
+    } else {
+      Meteor.loginWithPassword(phone, password, function (err) {
+        if (err) {
+          alert("用户名或密码错误,请再次登录!")    
+        } else {
+          FlowRouter.go(Session.get("redirectAfterLogin") || "/");
+        }
+      })
+    }
+  }
+})
+
+

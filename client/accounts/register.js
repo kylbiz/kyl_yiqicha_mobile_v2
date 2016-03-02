@@ -10,7 +10,24 @@ Template.register.helpers({
 
 Template.register.events({
   "click #send":function(){    
-		Session.set('codeTime', 60);     
+		Session.set('codeTime', 60);   
+
+    var phone = $("#phone").val();
+    var phoneReg = new RegExp(/^(13[0-9]|14[57]|15[012356789]|17[0678]|18[0-9])\d{8}$/)
+
+    if(!phoneReg.test(phone)) {
+      alert("请正确填写手机号！");
+    } else {
+      Meteor.call('genereateUserCode', phone, function (err, codeValue) {
+        if (!err && codeValue && codeValue['codestatus'] && codeValue['message']) {
+          if (codeValue['codestatus'] === 0 || codeValue['codestatus'] === 2) {
+            alert(codeValue['message'] || "未知错误");
+          }
+        } else {
+          alert(codeValue['message'] || "未知错误");
+        }
+      });     
+    }
   }
 })
 
@@ -67,6 +84,14 @@ $('.ui.form')
           }
         ]
       },
+      conform_password: {
+        rules: [
+          {
+            type: 'empty',
+            prompt: '请输入密码'
+          }
+        ]
+      },      
       verifycode: {
         rules: [
           {
@@ -84,4 +109,75 @@ $('.ui.form')
   
 })
 
-               
+//----------------------------------------------------------------------
+//验证手机号码
+function verifyPhone(phone) {
+  var phoneReg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+  if (!phoneReg.test(phone)) {
+    return false;
+  } else {
+    return true;
+  }
+}
+//----------------------------------------------------------------------
+//发送手机验证码
+var SendVerifyCode = function () {
+  var phone = $(".RegisterUserId").val() || "";
+  if (verifyPhone(phone)) {
+    Meteor.call('genereateUserCode', phone, function (err, codeValue) {
+      if (!err && codeValue && codeValue['codestatus'] && codeValue['message']) {
+        if (codeValue['codestatus'] === 0 || codeValue['codestatus'] === 2) {
+          $("[id=registerError]").html(codeValue['message'] || "未知错误");
+          $("[id=registerError]").show();
+        }
+      } else {
+        $("[id=errregisterErroror]").html(codeValue['message'] || "未知错误");
+        $("[id=registerError]").show();
+      }
+    });
+  } else {
+    $("[id=registerError]").html("手机号错误,请确认!");
+    $("[id=registerError]").show();
+  }
+}
+
+
+
+//------------------------------------------------------------
+//用户注册操作
+
+Template.register.events({
+  "click .userRegister": function(event) {
+    var phone = $("#phone").val() || "";
+    var password = $("#password").val() || "";
+    var code = $("input[name='verifycode']").val() || "";
+
+    if(!verifyPhone(phone)) {
+      alert("请正确输入手机号！");
+    } else if(!password || password.length < 6) {
+      alert("必须输入6为以上字符密码！");
+    } else {
+      var options = {
+        phone: phone,
+        password: password,
+        code: code
+      }
+      Meteor.call('UserRegistration', options, function (err, registitionValue) {
+        if (!err && registitionValue && (registitionValue['code'] === 0)) {
+          Meteor.call('sendRegistrationInfos', phone);
+          Meteor.loginWithPassword(phone, password, function (err) {
+            if (err) {
+              alert("注册成功，但登录失败，请重新登录！");
+              FlowRouter.go('/login');
+            } else {
+              FlowRouter.go("/usercenter");
+            }
+          })
+        } else {
+          alert(registitionValue['message'] || "注册失败！");
+        }
+      })  
+    }
+  }
+})
+           

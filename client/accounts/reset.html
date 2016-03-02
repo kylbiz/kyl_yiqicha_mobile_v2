@@ -3,12 +3,12 @@
     <div class="ui form">
       <div class="field">
         <div class="ui left icon input">
-          <input type="text" placeholder="手机号" /><i class="phone icon"></i>
+          <input type="text" id="phone" placeholder="手机号" /><i class="phone icon"></i>
         </div>
       </div>
       <div class="field">
         <div class="ui left icon input">
-          <input type="text" placeholder="6-25位的字母数字或下划线" />
+          <input type="password" id="password" placeholder="输入密码" />
           <i class="lock icon"></i>
         </div>
       </div>
@@ -17,7 +17,7 @@
           <div class="ui left icon input">
             <input name="verifycode" class="padding-right" type="text" placeholder="获取验证码" />
             <i class="check square icon"></i>
-            <button class="ui button dark-button" id="send">
+            <button class="ui button dark-button getVerifyCode" id="send">
               获取验证码
             </button>
           </div>
