@@ -4,8 +4,11 @@ Template.home.onCreated(function() {
     var type = "credit";
     self.subscribe("searchTimes", type);
   })
-})
+});
 
+Template.home.onRendered(function(){
+  Template.mainLayout.alert({title:"哈哈"});
+});
 
 Template.home.helpers({
   "searchTimes": function() {

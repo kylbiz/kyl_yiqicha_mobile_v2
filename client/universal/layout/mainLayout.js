@@ -32,6 +32,17 @@ Template.mainLayout.confirm=function(object) {
   }  
 }
 
+Template.mainLayout.alert=function(object) {
+  var template = Blaze.toHTMLWithData(Template.alertTemplate,object);
+  $("#Mount").html(template);
+  
+  var alertBox=$('#alert');
+  alertBox.modal('show');
+  alertBox.on('hide.bs.modal',function(event) {
+    $(event.currentTarget).detach();
+  });
+}
+
 Template.mainLayout.select= function(object) {
   
   // object = {
