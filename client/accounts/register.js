@@ -9,7 +9,17 @@ Template.register.helpers({
 });
 
 Template.register.events({
-  "click #send":function(){    
+  "click #send":function(e){    
+//  var self = $(e.currentTarget);
+//  var field = self.closest(".field").addClass("error");
+//  
+//  var prompt= $('<div/>')                                                                                         // 1141
+//        .addClass('ui basic red pointing prompt label')                                                          // 1142
+//        .html("你好").appendTo(field);
+//    
+//  field.removeClass("error");
+//  field.find(".prompt").remove();  
+    
 		Session.set('codeTime', 60);     
   }
 })
@@ -18,7 +28,7 @@ Template.register.onRendered(function(){
 
 $('.ui.form').form('reset');
   
-clearInterval();    
+//clearInterval();    
 setInterval(function() {
   if (Session.get('codeTime') > 0) {
     Session.set('codeTime', Session.get('codeTime') - 1);

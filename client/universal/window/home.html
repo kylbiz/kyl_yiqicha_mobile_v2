@@ -5,18 +5,19 @@
     <a href="/analysis" class="tab-link button"><i class="icon right"></i>政策查询</a>
   </div>   
   <div class="content-block home">
-    <div class="card">
+    <div class="main-card card ui form segement" id="searchForm">
       <div class="card-title">企业信息查询
       </div>
       <div class="card-subtitle">企业信息预检系统</div>
       <div class="card-content">
         <div class="card-content-inner">
-          <div class="ui left icon input">
-            <input type="text" class="keywords" placeholder="请输入企业名称或字号">
-            <i class="input icon"></i>
-          </div>  
-
-          <button class="button button-danger button-fill searchCredit">
+          <div class="field">
+            <div class="ui left icon input">
+              <input type="text" name="keywords" placeholder="请输入企业名称或字号">
+              <i class="input icon"></i>
+            </div>              
+          </div>
+          <button class="ui submit button button-danger button-fill">
             马上查询
           </button>
         </div>
@@ -38,17 +39,19 @@
     <a href="/analysis" class="active tab-link button"><i class="icon right"></i>政策查询</a>
   </div> 
   <div class="content-block home analysis">
-    <div class="card">
+    <div class="main-card card ui form segement" id="analysisForm">
       <div class="card-title">政策查询
       </div>
       <div class="card-subtitle">政府政策查询系统</div>
       <div class="card-content">
         <div class="card-content-inner">
-          <div class="ui left icon input">
-            <input type="text" placeholder="请输入企业名称或字号">
-            <i class="input icon"></i>
-          </div>       
-          <a class="button button-danger button-fill" href="/analysis_list">
+          <div class="field">
+            <div class="ui left icon input">
+              <input type="text" placeholder="请输入企业名称或字号">
+              <i class="input icon"></i>
+            </div>             
+          </div>      
+          <a class="ui submit button button-danger button-fill" href="/analysis_list">
             马上查询
           </a>
         </div>
