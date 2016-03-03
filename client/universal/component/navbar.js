@@ -41,6 +41,13 @@ Template.filter_navbar.onRendered(function(){
      $(".filter-content").fadeToggle();
   });                                  
 });
+Template.filter_navbar.helpers({
+  "status":function(){
+    return (Session.get("companyStatus")?Session.get("companyStatus"):"筛选");
+  }                                 
+});
+
+
 
 Template.message_navbar.helpers({
   "isFromCenter":function(){
