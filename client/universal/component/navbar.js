@@ -4,6 +4,10 @@ Template.navbar_title.helpers({
   }
 });
 
+Template.back_navbar.onCreated(function(){
+    initiator = 'back';
+});
+
 Template.back_navbar.onRendered(function(){
   
   $(document).on("click",".icon-back.router",function(event) {  
@@ -16,6 +20,10 @@ Template.back_navbar.onRendered(function(){
     }      
   });
   
+});
+
+Template.render_back_navbar.onCreated(function(){
+    initiator = 'back';
 });
 
 Template.render_back_navbar.onRendered(function(){
@@ -31,6 +39,11 @@ Template.render_back_navbar.onRendered(function(){
 Template.filter_navbar.onRendered(function(){
   $(".filter-btn").click(function(){
      $(".filter-content").fadeToggle();
-  });
-                                  
+  });                                  
 });
+
+Template.message_navbar.helpers({
+  "isFromCenter":function(){
+    return (isFromCenter=="isFromCenter");
+  }  
+})
