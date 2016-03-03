@@ -5,14 +5,23 @@ var ANIMATION_DURATION = 300;
 nextInitiator = null;
 initiator = null;
 
+
+FromCenter = null;
+isFromCenter = null;
+
+Session.setDefault("isFromCenter",false);
+
 Tracker.autorun(function() {
   FlowRouter.watchPathChange();
   var currentContext = FlowRouter.current();  
   initiator = nextInitiator;
   nextInitiator = null;
+  
+  FromCenter = isFromCenter;
+  isFromCenter = null;
+  
+  Session.set("isFromCenter",(FromCenter=="isFromCenter")); 
 });
-
-isFromCenter = null;
 
 mainApp = {}
 

@@ -44,6 +44,6 @@ Template.filter_navbar.onRendered(function(){
 
 Template.message_navbar.helpers({
   "isFromCenter":function(){
-    return (isFromCenter=="isFromCenter");
+    return Session.get("isFromCenter");
   }  
 })
