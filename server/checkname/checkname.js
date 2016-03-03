@@ -44,7 +44,7 @@ Meteor.methods({
       || !Meteor.userId()
       || Meteor.userId() !== options.userId
       || !options.hasOwnProperty("deleteLists")
-      || !(deleteLists instanceof Array)) {
+      || !(options.deleteLists instanceof Array)) {
       log("CreateCheckName: options illegal.", options);
     } else {
       var userId = Meteor.userId();    
@@ -67,7 +67,7 @@ Meteor.methods({
             if(err) {
               logError("RemoveCheckName: remove checkname :" + deleteId + " error.", err);
             } else {
-              LOG("RemoveCheckName: remove checkname :" + deleteId + " succeed.")
+              log("RemoveCheckName: remove checkname :" + deleteId + " succeed.")
             }
           })
         }

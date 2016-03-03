@@ -47,21 +47,26 @@ Template.application.events({
       FlowRouter.go("login");
     } else {
       var userId = Meteor.userId();
-      var deleteListsObj = $(".deleteCheck :checked");
+      var deleteListsObj = $(".deleteCheck");
 
       var deleteLists = [];
 
       deleteListsObj.each(function(index, element) {
-        var deleteId = $(element).attr("data-checkid");
-        deleteLists.push({deleteId: deleteId})
+        var checkItem = $(element).prop("checked")
+        if(checkItem) {
+          deleteId = $(element).attr("data-checkid");
+          deleteLists.push({deleteId: deleteId})
+        }
       })
 
-      var options = {
-        userId: userId,
-        deleteLists: deleteLists
-      };
+      if(deleteLists.length !== 0) {
+        var options = {
+          userId: userId,
+          deleteLists: deleteLists
+        };
 
-      Meteor.call("RemoveCheckName", options);
+        Meteor.call("RemoveCheckName", options);
+      }
     }
   }
 })
