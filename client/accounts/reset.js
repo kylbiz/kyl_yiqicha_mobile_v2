@@ -77,7 +77,7 @@ Template.reset.events({
         } else if(result && result.status && result.status === 1){
           alert("修改密码成功,退出请重新登录！");
           Meteor.logout();
-          Router.go('/login')
+          FlowRouter.go('/login')
         } else {
           alert(result.message)
         }   
@@ -85,18 +85,3 @@ Template.reset.events({
     }
   }
 })
-
-//----------------------------------------------------------------------
-//验证手机号码
-function verifyPhone(phone) {
-  var phoneReg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
-  if (!phoneReg.test(phone)) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
-
-
-

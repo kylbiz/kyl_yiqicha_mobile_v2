@@ -67,6 +67,7 @@ Meteor.methods({
         var codeLegal = codeVerification(username, verifyCode, Date.now());
         if(codeLegal) {
           var user = Meteor.users.findOne({username: username});
+
           if(user['services']['password']['bcrypt'] === hashPassword(password)) {
             log("changeUserPassword: user password the same as current password");
             callback(null, {status: 0, message: "当前密码与原密码一致！"})
