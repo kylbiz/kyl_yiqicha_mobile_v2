@@ -44,14 +44,22 @@ function InitSearchRecords(options) {
   } else {
     var sid = options.sid;
     var keywords = options.keywords;
-
-    SearchRecords.insert({
+    var insertOptions = {
       "keywords": keywords,
       "sid":sid,
       "ready": false,
       "host": "YQCWX",
       "createTime": new Date()
-    }, function(err) {
+    }
+
+    if(Meteor.userId() 
+      && options.hasOwnProperty("userId") 
+      && Meteor.userId() === options.userId) {
+      insertOptions.userId = Meteor.userId();
+      insertOptions.valid = true;
+    }
+
+    SearchRecords.insert(insertOptions, function(err) {
       if(err) {
         logError("InitSearchRecords: save search records: " + keywords + " error.", err);
       } else {
@@ -113,8 +121,19 @@ Meteor.methods({
       var sid = options.sid;
       var keywords = options.keywords;
 
+      var initRecordOptions = {
+        sid: sid,
+        keywords: keywords
+      };
+
+      if(Meteor.userId() 
+        && options.hasOwnProperty("userId")
+        && Meteor.userId() === options.userId) {
+        initRecordOptions.userId = Meteor.userId();
+      }
+
       // 初始化查询记录
-      Meteor._wrapAsync(InitSearchRecords({sid: sid, keywords: keywords}));
+      Meteor._wrapAsync(InitSearchRecords(initRecordOptions));
 
       // 抓取字段信息
       crawler.searchCompanyInformation(creditOptions, keywords, function(err, results) {
@@ -169,4 +188,40 @@ Meteor.methods({
     SearchTimesPlus("credit");
   }
 })
+
+
+Meteor.methods({
+  "recordUserSearch": function(options) {
+    if(!options
+      || !options.hasOwnProperty("userId")
+      || !Meteor.userId()
+      || options.userId !== Meteor.userId()
+      || options.hasOwnProperty("searchType")) {
+      log("recordUserSearch: options illegal.", options);
+    } else {
+
+
+
+
+
+    }
+  }
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

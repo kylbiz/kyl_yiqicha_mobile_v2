@@ -21,7 +21,15 @@ Meteor.publish("creditRecords", function(options) {
   return SearchRecords.find({keywords: keywords, sid: sid});
 })
 
+Meteor.publish("userRecords", function(options) {
+  var userId = options.userId || "";
+  return SearchRecords.find({userId: userId, valid: true}, {
+    fields: {keywords: 1, createTime: 1, userId: userId}, 
+    sort: {createTime: -1}
+  });
+})
+
+
 Meteor.publish("creditDetail", function(cid) {
   return Credit.find({companyId: cid});
 })
-

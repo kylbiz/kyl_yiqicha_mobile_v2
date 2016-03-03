@@ -6,9 +6,6 @@ Template.home.onCreated(function() {
   })
 });
 
-Template.home.onRendered(function(){
-  Template.mainLayout.alert({title:"哈哈"});
-});
 
 Template.home.helpers({
   "searchTimes": function() {
@@ -43,9 +40,11 @@ Template.home.events({
         sid: sid,
         keywords: keywords
       };
+      if(Meteor.userId()) {
+        options.userId = Meteor.userId();
+      }
       Meteor.call("searchCredit", options);
-
-      FlowRouter.go("/credit/lists", {}, { key: keywords, sid: sid})
+      FlowRouter.go("/credit/lists", {}, { key: keywords, sid: sid});
     }
   }
 })
