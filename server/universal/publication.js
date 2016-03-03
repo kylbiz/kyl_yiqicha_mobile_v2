@@ -7,9 +7,15 @@ Meteor.publish("searchTimes", function(type) {
 
 Meteor.publish("creditLists", function(options) {
   var keywords = options.keywords || "";
-  console.log("keywords: " + keywords)
+  var companyStatus = /^[\s\S]+$/;
+  console.log(options)
+  if(options.companyStatus) {
+    companyStatus = options.companyStatus;
+  }
+  console.log("companyStatus: " + companyStatus)
+
   if(keywords) {
-    return Credit.find({companyName: new RegExp(keywords)});
+    return Credit.find({companyName: new RegExp(keywords), companyStatus: companyStatus}, {fields: {basicDetail: 0, annualCheckLists: 0}});
   } else {
     return Credit.find({companyName: "companyName"})
   }

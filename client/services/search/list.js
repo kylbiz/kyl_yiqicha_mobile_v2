@@ -32,18 +32,27 @@ Template.search_list.onRendered(function(){
   });   
 });
 
-Template.search_list.onRendered(function() {
+
+Template.search_list.onRendered(function(){
+  $(".filter-content li.item-content").click(function(){
+      var companyStatus = $(this).find(".item-title").attr("data-status") || "";
+      Session.set("companyStatus", companyStatus)
+      $(".filter-content").fadeOut();
+  });
+})
+
+Template.search_list.onCreated(function() {
   var self = this;
-  // self.autorun(function() {
+  self.autorun(function() {
     var sid = FlowRouter.getQueryParam("sid") || "";
     var keywords = FlowRouter.getQueryParam("key") || "";
+    var companyStatus = Session.get("companyStatus") || "";
 
-    self.subscribe("creditLists", {keywords: keywords});
+    self.subscribe("creditLists", {keywords: keywords, companyStatus: companyStatus});
     self.subscribe("creditRecords", {keywords: keywords, sid:sid});
-  // })
+  })
 
 });
-
 
 
 Template.search_list.helpers({
@@ -98,13 +107,6 @@ Template.search_list.events({
   }
 })
 
-Template.search_list.onRendered(function(){
-  $(".filter-content li.item-content").click(function(){
-      var text = $(this).find(".item-title").text();
-      alert(text);
-      $(".filter-content").fadeOut();
-  });
-})
 
 
 Template.search_list.events({
@@ -119,7 +121,6 @@ Template.search_list.events({
 
     var currentPage = Math.floor(currentListsNum / 5) + 1;
 
-    log(typeof(currentListsNum), currentListsNum >=0)
     if(!(currentListsNum >= 0)) {
       log("当前显示公司条数错误：" + currentListsNum);
     }  else if(!(currentListsNum <= creditNum)) {
