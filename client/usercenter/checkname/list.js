@@ -33,6 +33,36 @@ Template.application.helpers({
     return Session.get("editor");
   },
   "checkLists": function() {
-    return CheckName.find({userId: Meteor.userId()}) || [];
+    return CheckName.find({userId: Meteor.userId(), removed: false}) || [];
   }
 })
+
+Template.application.events({
+  "click #delete": function(event) {
+    if(!Meteor.userId()) {
+      FlowRouter.go("login");
+    } else {
+      var userId = Meteor.userId();
+      var deleteListsObj = $(".deleteCheck :checked");
+
+      var deleteLists = [];
+
+      deleteListsObj.each(function(index, element) {
+        var deleteId = $(element).attr("data-checkid");
+        deleteLists.push({deleteId: deleteId})
+      })
+
+      var options = {
+        userId: userId,
+        deleteLists: deleteLists
+      };
+
+      Meteor.call("RemoveCheckName", options);
+    }
+  }
+})
+
+
+
+
+

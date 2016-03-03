@@ -42,6 +42,6 @@ Meteor.publish("creditDetail", function(cid) {
 
 
 Meteor.publish("getCheckLists", function(userId) {
-  return CheckName.find({userId: userId});
+  return CheckName.find({userId: userId, removed: false});
 })
 
