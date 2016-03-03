@@ -9,19 +9,19 @@ Template.application.onRendered(function(){
    };   
   
   $("#create").click(function(){
-    
-      Template.mainLayout.select(object).on(function (e,value) {
-          if(e){
-            if(value==1) {        
-               //单独增加
-               FlowRouter.go('/create');   
-            }
-            else if(value==2) {
-               //批量增加
-               FlowRouter.go('/factory');         
-            }
-          }
-      });  
+      FlowRouter.go('/create');   
+//      Template.mainLayout.select(object).on(function (e,value) {
+//          if(e){
+//            if(value==1) {        
+//               //单独增加
+//               FlowRouter.go('/create');   
+//            }
+//            else if(value==2) {
+//               //批量增加
+//               FlowRouter.go('/factory');         
+//            }
+//          }
+//      });  
     
   });
   
