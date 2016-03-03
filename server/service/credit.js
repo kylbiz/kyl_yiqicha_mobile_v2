@@ -159,16 +159,15 @@ Meteor.methods({
           // 存储查询结果
           if(allpageNo !== 0) {
             creditLists.forEach(function(credit) {
-              var companyName = credit.company.companyName || "";
-              var companyId = credit.company.companyId || "";
-              credit.updateTime = new Date();
-              
+              var company = credit.company; 
+              var companyName = company.companyName || "";               
               Fiber(function() {
-                Credit.update({
-                  companyName: companyName,
-                  companyId:companyId
-                }, {
-                  $set: credit
+                Credit.update(company, {
+                  $set: {
+                    basicDetail: credit.basicDetail,
+                    annualCheckLists: credit.annualCheckDetail,
+                    updateTime: new Date()
+                  }
                 }, {
                   upsert: true
                 },function(err) {
@@ -189,24 +188,6 @@ Meteor.methods({
   }
 })
 
-
-Meteor.methods({
-  "recordUserSearch": function(options) {
-    if(!options
-      || !options.hasOwnProperty("userId")
-      || !Meteor.userId()
-      || options.userId !== Meteor.userId()
-      || options.hasOwnProperty("searchType")) {
-      log("recordUserSearch: options illegal.", options);
-    } else {
-
-
-
-
-
-    }
-  }
-})
 
 
 Meteor.methods({
@@ -244,16 +225,15 @@ Meteor.methods({
               var creditLists = results.detailResultsOutputs;
               
               creditLists.forEach(function(credit) {
-                var companyName = credit.company.companyName || "";
-                var companyId = credit.company.companyId || "";
-                credit.updateTime = new Date();
-                
+                var company = credit.company;  
+                var companyName = company.companyName || "";            
                 Fiber(function() {
-                  Credit.update({
-                    companyName: companyName,
-                    companyId:companyId
-                  }, {
-                    $set: credit
+                  Credit.update(company, {
+                    $set: {
+                      basicDetail: credit.basicDetail,
+                      annualCheckLists: credit.annualCheckDetail,
+                      updateTime: new Date()
+                    }
                   }, {
                     upsert: true
                   },function(err) {
