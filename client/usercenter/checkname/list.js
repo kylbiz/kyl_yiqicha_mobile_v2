@@ -7,24 +7,7 @@ Template.application.onRendered(function(){
      title: "选择类型",
      options: [{name:"单独增加",value:"1"},{name:"批量增加",value:"2"}]     
    };   
-  
-  $("#create").click(function(){
-      FlowRouter.go('/create');   
-//      Template.mainLayout.select(object).on(function (e,value) {
-//          if(e){
-//            if(value==1) {        
-//               //单独增加
-//               FlowRouter.go('/create');   
-//            }
-//            else if(value==2) {
-//               //批量增加
-//               FlowRouter.go('/factory');         
-//            }
-//          }
-//      });  
     
-  });
-  
   $(document).on("click","#editor",function(){
         Session.set("editor",true);  
   });

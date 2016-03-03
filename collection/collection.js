@@ -9,3 +9,5 @@ CreditStatus = new Mongo.Collection("CreditStatus");
 UserCode = new Mongo.Collection("UserCode");
 
 Messages = new Mongo.Collection("Messages");
+
+CheckName = new Mongo.Collection("CheckName");
