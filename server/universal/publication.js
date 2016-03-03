@@ -39,3 +39,9 @@ Meteor.publish("userRecords", function(options) {
 Meteor.publish("creditDetail", function(cid) {
   return Credit.find({companyId: cid});
 })
+
+
+Meteor.publish("getCheckLists", function(userId) {
+  return CheckName.find({userId: userId});
+})
+

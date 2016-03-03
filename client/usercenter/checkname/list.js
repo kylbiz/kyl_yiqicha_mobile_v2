@@ -1,5 +1,10 @@
 Template.application.onCreated(function(){
-    Session.set("editor",false);    
+    Session.set("editor",false);  
+    var self = this;
+    self.autorun(function() {
+      var userId = Meteor.userId();
+      self.subscribe("getCheckLists", userId);
+    })
 });
 
 Template.application.onRendered(function(){
@@ -26,5 +31,8 @@ Template.application.onRendered(function(){
 Template.application.helpers({
   'editor':function(){
     return Session.get("editor");
+  },
+  "checkLists": function() {
+    return CheckName.find({userId: Meteor.userId()}) || [];
   }
 })

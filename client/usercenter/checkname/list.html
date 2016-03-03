@@ -3,38 +3,30 @@
     <div class="list-block list-card">
       <ul>
         {{#if editor}}
-        <li class="item-content card">         
-          <label class="label-checkbox item-content">
-          <input type="checkbox" name="my-checkbox" value="Movies">
-          <div class="item-media">
-            <i class="icon icon-form-checkbox"></i>
-          </div>   
-          <div class="item-inner">
-            <div class="item-title">上海开心宝网络科技有限公司</div>
-            <div class="item-after">审查中</div>
-          </div>
-          </label>          
-        </li>          
-          {{else}}
-          <li class="item-content item-link card" data-path="status">           
-            <div class="item-inner">
-              <div class="item-title">上海开心宝网络科技有限公司</div>
-              <div class="item-after">审查中</div>
-            </div>         
-          </li>                    
-        {{/if}}      
-        <li class="item-content item-link card" data-path="status">
-          <div class="item-inner">
-            <div class="item-title">上海开心宝网络科技有限公司</div>
-            <div class="item-after">核准，可取</div>
-          </div>
-        </li>
-        <li class="item-content item-link card" data-path="status">
-          <div class="item-inner">
-            <div class="item-title">上海开心宝网络科技有限公司</div>
-            <div class="item-after">审查中</div>
-          </div>
-        </li>                   
+          {{#each checkLists}}
+            <li class="item-content card">         
+              <label class="label-checkbox item-content">
+              <input type="checkbox" name="my-checkbox" value="Movies">
+              <div class="item-media">
+                <i class="icon icon-form-checkbox"></i>
+              </div>   
+              <div class="item-inner">
+                <div class="item-title">{{checkname}}</div>
+                <div class="item-after">{{status}}</div>
+              </div>
+              </label>          
+            </li>    
+          {{/each}}
+        {{else}}
+          {{#each checkLists}}
+            <li class="item-content item-link card" data-path="status">        
+              <div class="item-inner">
+                <div class="item-title">{{checkname}}</div>
+                <div class="item-after">{{status}}</div>
+              </div>         
+            </li>
+          {{/each}}                    
+        {{/if}}                       
       </ul>
     </div>    
   </div>
