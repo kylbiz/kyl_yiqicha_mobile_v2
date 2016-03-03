@@ -43,9 +43,11 @@
       </ul>
     </div>
     <div>
-      <button class="button button-fill">
-        <span class="preloader"></span>点击加载更多
-      </button>
+      {{#if hasNext}}
+        <button class="button button-fill moreCredit">
+          <span class="preloader"></span>点击加载更多
+        </button>
+      {{/if}}
     </div>
 
   </div>

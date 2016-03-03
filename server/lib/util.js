@@ -13,3 +13,23 @@ logError = function(info) {
     console.error(arguments[i]);
   }
 }
+
+// var url = 'http://192.168.1.142:8003/WordGenerator?wsdl';
+// var args = {name: 'value'};
+
+// try {
+//   var client = Soap.createClient(url);
+//   var result = client.wordPosition(args);
+//   console.log(client)
+//   console.log(result);
+// }
+// catch (err) {
+//   console.log(err)
+//   if(err.error === 'soap-creation') {
+//     console.log('SOAP Client creation failed');
+//   }
+//   else if (err.error === 'soap-method') {
+//     console.log('SOAP Method call failed');
+//   }
+
+// }

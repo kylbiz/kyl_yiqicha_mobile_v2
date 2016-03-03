@@ -87,7 +87,7 @@ function UpdateSearchRecords(options) {
   } else {
     var sid = options.sid || "";
     var keywords = options.keywords || "";
-    var allpageNo = options.allpageNo || 0;
+    var allpageNum = options.allpageNo || 0;
     var creditNum = options.creditNum || 0;
 
     SearchRecords.update({
@@ -95,7 +95,7 @@ function UpdateSearchRecords(options) {
       sid: sid
     }, {
       $set: {
-        allpageNo: allpageNo,
+        allpageNum: allpageNum,
         creditNum: creditNum,
         ready: true
       }
@@ -209,7 +209,69 @@ Meteor.methods({
 })
 
 
+Meteor.methods({
+  "getMoreCredit": function(options) {
+    log("getMoreCredit: Hi, I am calling.");
+    if(!options
+      || !options.hasOwnProperty("sid")
+      || !options.hasOwnProperty("keywords")
+      || !options.hasOwnProperty("nextPage")) {
+      logError("getMoreCredit: options illegal.", options);
+    } else {
+      var sid = options.sid;
+      var keywords = options.keywords;
+      var nextPage = options.nextPage || 1;
 
+      var record = SearchRecords.findOne({keywords: keywords, sid: sid});
+
+      if(!record 
+        || !record.hasOwnProperty("creditNum")
+        || !(nextPage <= Math.floor(record.creditNum / 5) + 1)) {
+        log("getMoreCredit: nextPage larger than allpageNum.");
+        log("nextPage: " + nextPage, "allpageNum: " + (Math.floor(record.creditNum / 5) + 1))
+      } else {
+        var keywords = options.keywords;
+        var allpageNum = record.allpageNum;
+        
+        // 获取更多企业信用信息
+        crawler.getMoreRegistrations(creditOptions, keywords, allpageNum, nextPage, function(err, results) {
+          if(err) {
+            log("getMoreCredit: get more credit error.", err);
+          } else {
+            if(!results.hasOwnProperty("detailResultsOutputs")) {
+              log("getMoreCredit: get no more credit lists.", results);
+            } else {
+              var creditLists = results.detailResultsOutputs;
+              
+              creditLists.forEach(function(credit) {
+                var companyName = credit.company.companyName || "";
+                var companyId = credit.company.companyId || "";
+                credit.updateTime = new Date();
+                
+                Fiber(function() {
+                  Credit.update({
+                    companyName: companyName,
+                    companyId:companyId
+                  }, {
+                    $set: credit
+                  }, {
+                    upsert: true
+                  },function(err) {
+                    if(err) {
+                      logError("getMoreCredit: save credit: " + companyName + " error.", err);
+                    } else {
+                      log("getMoreCredit: save credit: " + companyName + " succeed.")
+                    }
+                  })
+                }).run();
+              });              
+            }
+          }
+        })
+      }
+    }   
+  }
+})
 
 
 
