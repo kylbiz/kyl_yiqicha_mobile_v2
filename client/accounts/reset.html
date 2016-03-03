@@ -1,38 +1,33 @@
 <template name="reset">
   <div class="content-block reset load_content">
-    <div class="ui form">
+    <div class="ui form segement" id="resetForm">
       <div class="field">
         <div class="ui left icon input">
-          <input type="text" id="phone" placeholder="手机号" /><i class="phone icon"></i>
+          <input type="text" name="username" id="phone" placeholder="手机号" /><i class="phone icon"></i>
         </div>
       </div>
       <div class="field">
         <div class="ui left icon input">
-          <input type="password" id="password" placeholder="输入密码" />
+          <input type="password" name="password" id="password" placeholder="输入新密码" />
           <i class="lock icon"></i>
         </div>
       </div>
-      <div class="field">        
-          {{#if $eq codeTime 0}}
-          <div class="ui left icon input">
-            <input name="verifyCode" class="padding-right" type="text" placeholder="获取验证码" />
-            <i class="check square icon"></i>
-            <button class="ui button dark-button getVerifyCode" id="send">
-              获取验证码
-            </button>
-          </div>
-          {{else}}
-          <div class="ui left icon input send-code">
-            <input name="verifyCode" class="padding-right" type="text" placeholder="获取验证码" />
-            <i class="check square icon"></i>
-            <button class="ui button dark-button">
-              {{codeTime}}秒可再次发送
-            </button>
-          </div>          
-          {{/if}}        
+    <div class="field">
+      <div class="ui left icon input">
+        <input name="verifyCode" class="padding-right" type="text" placeholder="获取验证码" />
+        <i class="check square icon"></i> {{#if $eq codeTime 0}}
+        <button class="ui button dark-button getVerifyCode" id="send">
+          获取验证码
+        </button>
+        {{else}}
+        <button class="ui button dark-button">
+          {{codeTime}}秒可再次发送
+        </button>
+        {{/if}}
       </div>
+    </div>
       <div class="field divider">
-        <button class="button button-danger button-fill changePassword">    
+        <button class="ui submit button button-danger button-fill">    
           <i class="lock-circle"></i> 
           <span>重置密码</span>
         </button>

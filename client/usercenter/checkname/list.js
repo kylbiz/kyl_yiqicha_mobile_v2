@@ -24,8 +24,7 @@ Template.application.onRendered(function(){
   $(document).on("click","#delete",function(){
         //dosomething...
         Session.set("editor",false); 
-  });  
-
+  });    
 });
 
 Template.application.helpers({
@@ -34,5 +33,13 @@ Template.application.helpers({
   },
   "checkLists": function() {
     return CheckName.find({userId: Meteor.userId()}) || [];
+  }
+})
+
+Template.application.events({
+  "click li.item-content.edit":function(e){
+    var box = $(e.currentTarget).find("input[type='checkbox']").first();    
+    var checked = (!box.prop("checked"));
+    $(box).prop("checked",checked);
   }
 })
