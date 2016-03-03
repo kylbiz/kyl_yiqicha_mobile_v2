@@ -1,15 +1,26 @@
 Session.setDefault("title", "企业自助查询系统");
 
-var ANIMATION_DURATION = 200;
+var ANIMATION_DURATION = 300;
 
 nextInitiator = null;
 initiator = null;
+
+
+FromCenter = null;
+isFromCenter = null;
+
+Session.setDefault("isFromCenter",false);
 
 Tracker.autorun(function() {
   FlowRouter.watchPathChange();
   var currentContext = FlowRouter.current();  
   initiator = nextInitiator;
   nextInitiator = null;
+  
+  FromCenter = isFromCenter;
+  isFromCenter = null;
+  
+  Session.set("isFromCenter",(FromCenter=="isFromCenter")); 
 });
 
 mainApp = {}
@@ -122,7 +133,6 @@ Template.mainLayout.onRendered(function(){
   
   $(document).on("click", ".main-tab .tab-link", function(e) {
     initiator ="single"; 
-    nextInitiator ="single";    
 //      e.stopImmediatePropagation();
 //      e.preventDefault();      
     var $target = $(e.currentTarget);
@@ -142,7 +152,10 @@ Template.mainLayout.onRendered(function(){
     
   $(document).on("click",".item-link",function(e) { 
       var link = $(this).data("path"); 
-      var content = $(this).data("mounter");     
+      var content = $(this).data("mounter");   
+      if(link=="message") {
+        isFromCenter="isFromCenter";
+      }
       if(link) {
          link = "/" + link;
          FlowRouter.go(link);   
@@ -170,15 +183,14 @@ Template.mainLayout.onRendered(function(){
       }
   }); 
   
-  this.find('.content')._uihooks = {
+  this.find('.page')._uihooks = {
     insertElement: function(node, next) {
 
       if (initiator === 'single') {
         return $(node).insertBefore(next);  
       }
   
-      var start = (initiator === 'back') ? '-100%' : '100%';
-
+      var start = (initiator === 'back') ? '-100%' : '100%';      
       $.Velocity.hook(node, 'translateX', start);
       $(node)
       .insertBefore(next)
@@ -207,5 +219,79 @@ Template.mainLayout.onRendered(function(){
       });
     }  
   }
+  
+  this.find('.bar-nav')._uihooks = {
+    insertElement: function(node, next) {
+
+      if (initiator === 'single') {
+        return $(node).insertBefore(next);  
+      }
+  
+      var start = (initiator === 'back') ? '-100%' : '100%';      
+      $.Velocity.hook(node, 'translateX', start);
+      $(node)
+      .insertBefore(next)
+      .velocity({translateX: [0, start]}, {
+        duration: ANIMATION_DURATION,
+        easing: 'ease-in-out',
+        queue: false
+      });      
+    },
+    removeElement: function(node) {
+      
+      if (initiator === 'single') {
+        return $(node).remove();
+      }
+      
+      var end = (initiator === 'back') ? '100%' : '-100%';
+
+      $(node)
+      .velocity({translateX: end}, {
+        duration: ANIMATION_DURATION,
+        easing: 'ease-in-out',
+        queue: false,
+        complete: function() {
+          $(node).remove();
+        }
+      });
+    }  
+  };
+  
+  this.find('.content')._uihooks = {
+    insertElement: function(node, next) {
+//      console.log(initiator);
+      if (initiator === 'single') {
+        return $(node).insertBefore(next);  
+      }
+
+      var start = (initiator === 'back') ? '-100%' : '100%';      
+      
+      $.Velocity.hook(node, 'translateX', start);
+      $(node)
+      .insertBefore(next)
+      .velocity({translateX: [0, start]}, {
+        duration: ANIMATION_DURATION,
+        easing: 'ease-in-out',
+        queue: false
+      });      
+    },
+    removeElement: function(node) {
+      
+      if (initiator === 'single') {
+        return $(node).remove();
+      }
+      var end = (initiator === 'back') ? '100%' : '-100%';
+      $(node)
+      .velocity({translateX: end}, {
+        duration: ANIMATION_DURATION,
+        easing: 'ease-in-out',
+        queue: false,
+        complete: function() {
+          $(node).remove();
+        }
+      });
+    }  
+  }
+  
   
 });
