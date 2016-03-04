@@ -18,13 +18,6 @@ Template.home.helpers({
   }
 });
 
-function verifyKeywords(keywords) {
-  if (!typeof (keywords) === "string" || keywords.length < 2) {
-    return false;
-  } else {
-    return true;
-  }
-};
 
 $.fn.form.settings.rules.verifyKeywords = function (value) {
     return verifyKeywords(value);

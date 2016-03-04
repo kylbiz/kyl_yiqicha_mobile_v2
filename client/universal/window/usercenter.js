@@ -1,10 +1,3 @@
-Template.usercenter.onRendered(function(){
-
-});
-
-
-
-
 Template.usercenter.helpers({
   "username": function() {
     if(Meteor.user()) {

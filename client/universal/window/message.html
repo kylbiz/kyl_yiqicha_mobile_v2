@@ -1,8 +1,9 @@
 <Template name="message">
-{{#if message}}
+{{#if messageLists}}
   <div class="list-block message load_content">
     <ul>
-      <li class="item-content">     
+      {{#each messageLists}}
+      <li class="item-content messageItem" data-messageid="{{_id}}">     
         <div class="item-inner">
   
           <div class="item-box">
@@ -10,53 +11,21 @@
               <i class="icon icon-success"></i>
             </div>                 
             <div class="item-title">
-              <span>开业啦（上海）</span>
-              <span>已通过审核</span>  
+              <span>{{title}}</span>
+              <span>{{summary}}</span>  
             </div>            
-          </div>
-                                   
+          </div>                                   
           <div class="item-after">
-            2016-02-19 16:00
+            {{createTime}}
           </div>
         </div>
       </li>
-      <li class="item-content">         
-        <div class="item-inner">
-          <div class="item-box">
-            <div class="item-media">
-              <i class="icon icon-warn"></i>
-            </div>
-            <div class="item-title">
-              <span>开业啦网络科技有限公司</span>
-              <span>已通过审核</span>       
-            </div>                          
-          </div>                 
-          <div class="item-after">
-            2016-02-19 16:00
-          </div>
-        </div>
-      </li>    
-      <li class="item-content">       
-        <div class="item-inner">
-          <div class="item-box">
-            <div class="item-media">
-              <i class="icon icon-danger"></i>
-            </div>             
-            <div class="item-title">
-              <span>开业啦（上海）网络科技有限公司</span>
-              <span>已通过审核</span>       
-            </div>            
-          </div>            
-          <div class="item-after">
-            2016-02-19 16:00
-          </div>
-        </div>
-      </li>        
+      {{/each}}       
     </ul>
   </div>  
 {{/if}}
 
-{{#unless message}}
+{{#unless messageLists}}
   {{#notify_template title="状态提醒" icon_name="icon-alert"}}
     <p class="text-center">
       暂时没有相关内容  

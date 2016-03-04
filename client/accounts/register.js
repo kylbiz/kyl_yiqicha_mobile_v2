@@ -72,7 +72,6 @@ Template.register.onRendered(function () {
 
         Meteor.call('UserRegistration', fields, function (err, registitionValue) {
           if (!err && registitionValue && (registitionValue['code'] === 0)) {
-            Meteor.call('sendRegistrationInfos', phone);
             Meteor.loginWithPassword(phone, password, function (err) {
               if (err) {
                 mainApp.alert("注册成功，但登录失败，请重新登录！");

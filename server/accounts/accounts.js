@@ -205,60 +205,62 @@ Meteor.methods({
             code: 1, 
             message: '该用户已经存在'
           }
-          log(phone + 'user alerady exists')
+          log("UserRegistration: " + phone + 'user alerady exists')
           callback(null, registrationValue)
         } else {
-        var userOptions = {
-          username: phone,
-          password: password,
-          profile: {
-            phone: phone
-          }
-        }
-       var user = Accounts.createUser(userOptions);
-       if(!user) {
-          log('user create error');
-          registrationValue = {
-            code: 2,
-            message: '创建用户错误!'
-          }
-          callback(err, registrationValue);
-        } else {
-          Meteor.users.update({_id: user}, {
-            $set: {
-              roles: ['customer']
+          var userOptions = {
+            username: phone,
+            password: password,
+            profile: {
+              phone: phone
             }
+          }
+
+          var user = Accounts.createUser(userOptions);
+          if(!user) {
+            log("UserRegistration: " + 'user create error');
+            registrationValue = {
+              code: 2,
+              message: '创建用户错误!'
+            }
+            callback(err, registrationValue);
+          } else {
+            Meteor.users.update({_id: user}, {
+              $set: {
+                roles: ['customer']
+              }
+            }, function(err) {
+              if(err) {
+                log("UserRegistration: " + 'add user roles about customer error', err);
+              } else {
+                log("UserRegistration: " + 'add user roles about customer succeed');   
+              }
+            })
+
+            // 发送注册成功消息
+            RegistrationNotify({userId: user, phone: phone}) 
+
+            log("UserRegistration: " + 'user create succeed');
+            registrationValue = {
+              code: 0, 
+              message: '用户创建成功!'
+            }
+            callback(null, registrationValue);
+          }
+
+          UserCode.update({phone: phone}, {
+            $set: {
+              used: true
+            }
+          }, {
+            upsert: true
           }, function(err) {
             if(err) {
-              log('add user roles about customer error', err);
+              log('update user code [used] error');
             } else {
-              log('add user roles about customer succeed');   
+              log('update user code [used] succeed');
             }
           })
-
-
-
-          log('user create succeed');
-          registrationValue = {
-            code: 0, 
-            message: '用户创建成功!'
-          }
-          callback(null, registrationValue);
-        }
-
-        UserCode.update({phone: phone}, {
-          $set: {
-            used: true
-          }
-        }, {
-          upsert: true
-        }, function(err) {
-          if(err) {
-            log('update user code [used] error');
-          } else {
-            log('update user code [used] succeed');
-          }
-        })
       }
 
       } else {
@@ -275,8 +277,6 @@ Meteor.methods({
           }
         }
        
-        log(registrationValue);
-
         callback(null, registrationValue);
       }
     }
@@ -288,37 +288,41 @@ Meteor.methods({
 
 
 //----------------------------------------------------
-/**
- * UserLogin callback (code, message)
- * code: 0, message: 'user not exists'
- * code: 1, message: 'user exists and password right'
- * code: 2, message: 'user exists but password wrong'
- * code: 3, message: 'phone number wrong or password null'
- * code: 4, message: 'internal error';
- */
+function RegistrationNotify(options) {
+  log("RegistrationNotify: Hi, I am called.");
+  if(!options
+    || !options.hasOwnProperty("phone")
+    || !verifyPhone(options.phone)
+    || !options.hasOwnProperty("userId")) {
+    log("RegistrationNotify: options illegal.", options);
+  } else {
+    var phone = options.phone;
+    var userId = options.userId;
+    var detail = "欢迎 " + phone + " 注册一企查账户，我们将用心提供优质的企业服务，给您带来温馨的体验，欢迎访问我们的官网：http://www.kyl.biz 获取更多信息！\n"
+    + "祝您体验愉快!"
 
-//----------------------------------------------------
-Meteor.methods({
-  'sendRegistrationInfos': function(phone) {
-    if(verifyPhone(phone)) {
-      Messages.insert({
-        username: phone,
-        content: '尊敬的用户: '+ phone + ', 您好!\n感谢您注册成为开业啦用户, 为您提供一流的服务是我们的追求, 谢谢!',
-        type: '用户注册',
-        createTime: Date.now(),
-        read: false
-      }, function(err) {
-        if(err) {
-          log('send registration message error');
-        } else {
-          log('send registration message succeed');
-        }
-      })
+    var message = {
+      from: "一企查优质企业服务",
+      toUserId: userId,
+      toUserName: phone,
+      title: "一企查账户提醒",
+      subtitle: "欢迎注册一企查账户",
+      summary: "欢迎注册一企查账户: " + phone,
+      type: "system",
+      detail: detail,
+      removed: false,
+      createTime: new Date()
     }
 
+    Messages.insert(message, function(err) {
+      if(err) {
+        logError("RegistrationNotify: send welcome notification to : " + phone  + " error.", err);
+      } else {
+        log("RegistrationNotify: send welcome notification to : " + phone  + " succeed.")
+      }
+    })
   }
-})
-
+}
 
 //----------------------------------------------------
 
@@ -455,5 +459,4 @@ Meteor.methods({
     return response;
   }  
 });
-
 

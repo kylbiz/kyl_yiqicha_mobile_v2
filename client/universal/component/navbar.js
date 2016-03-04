@@ -54,3 +54,26 @@ Template.message_navbar.helpers({
     return Session.get("isFromCenter");
   }  
 })
+
+
+Template.filter_navbar.events({
+  "submit .keywordsForm": function(event) {
+    var keywords = $(".searchKeywords").val();
+    event.preventDefault()  ;
+
+    if(!verifyKeywords(keywords)) {
+      alert("企业名称字位数必须大于2位！");
+    } else {
+      var sid = Meteor.uuid();
+      var options = {
+        sid: sid,
+        keywords: keywords
+      };
+      if(Meteor.userId()) {
+        options.userId = Meteor.userId();
+      }
+      Meteor.call("searchCredit", options);
+      FlowRouter.go("/credit/lists", {}, { key: keywords, sid: sid});
+    }  
+  }
+})

@@ -51,7 +51,7 @@
     </a>  
     {{/if}}
     {{>navbar_title}}
-    <button class="button pull-right">全部清空</button>
+    <button class="button pull-right clearMessage">全部清空</button>
   </header>   
 </Template>   
             
@@ -71,10 +71,10 @@
   <header class="bar bar-nav filter_navbar">    
     <a class="icon-back router pull-left" href="/"> 
       <i class="icon back-icon"></i>     
-    </a>        
-    <div class="ui input">
-      <input type="text" placeholder="请输入企业名称或字号">
-    </div>
+    </a>      
+    <form class="ui input keywordsForm">
+      <input type="text" class="searchKeywords" placeholder="请输入企业名称或字号">
+    </form>
     <a class="pull-right filter-btn">{{status}}
     <i class="angle down icon"></i>
     </a>

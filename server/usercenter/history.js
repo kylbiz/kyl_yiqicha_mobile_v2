@@ -20,7 +20,7 @@ Meteor.methods({
             userId: userId
           }, {
             $set: {
-              valid: false
+              removed: false
             }
           },function(err) {
             if(err) {

@@ -29,7 +29,7 @@ Meteor.publish("creditRecords", function(options) {
 
 Meteor.publish("userRecords", function(options) {
   var userId = options.userId || "";
-  return SearchRecords.find({userId: userId, valid: true}, {
+  return SearchRecords.find({userId: userId, removed: true}, {
     fields: {keywords: 1, createTime: 1, userId: userId}, 
     sort: {createTime: -1}
   });
@@ -45,3 +45,13 @@ Meteor.publish("getCheckLists", function(userId) {
   return CheckName.find({userId: userId, removed: false});
 })
 
+Meteor.publish("getMessageLists", function(userId) {
+  return Messages.find({
+    toUserId: userId,
+    removed: false
+  }, {
+    fields: {
+      detail: 0
+    }
+  });
+})
