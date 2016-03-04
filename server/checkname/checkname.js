@@ -17,10 +17,13 @@ Meteor.methods({
         userId: userId
       }, {
         $set: {
-          status: "等待查询",
+          nameStatus: "等待查询",
           removed: false,
           messageNotify: messageNotify,
-          updateTime: new Date()
+          searchedTimes: 1,
+          beginSearchTime: 1,
+          latestSearchTime: 1,
+          searchFinished: false
         }
       }, {
         upsert: true
