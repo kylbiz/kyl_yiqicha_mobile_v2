@@ -54,8 +54,7 @@ Template.register.onRendered(function () {
   }
 
   $.fn.form.settings.rules.isValidCode = function (value) {
-    //call
-    //...return
+
     return true;
   }
 
@@ -97,7 +96,6 @@ Template.register.onRendered(function () {
               prompt: '请输入手机号'
           },
             {
-              //            type: 'regExp[/^(13[0-9]|14[57]|15[012356789]|17[0678]|18[0-9])\d{8}$/]',
               type: 'isPhone',
               prompt: '请输入正确的手机号'
           }
@@ -143,41 +141,4 @@ Template.register.onRendered(function () {
     });
 
 });
-
-//----------------------------------------------------------------------
-//验证手机号码
-function verifyPhone(phone) {
-  var phoneReg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
-  if (!phoneReg.test(phone)) {
-    return false;
-  } else {
-    return true;
-  }
-}
-//----------------------------------------------------------------------
-//发送手机验证码
-var SendVerifyCode = function () {
-  var phone = $(".RegisterUserId").val() || "";
-  if (verifyPhone(phone)) {
-    Meteor.call('genereateUserCode', phone, function (err, codeValue) {
-      if (!err && codeValue && codeValue['codestatus'] && codeValue['message']) {
-        if (codeValue['codestatus'] === 0 || codeValue['codestatus'] === 2) {
-          $("[id=registerError]").html(codeValue['message'] || "未知错误");
-          $("[id=registerError]").show();
-        }
-      } else {
-        $("[id=errregisterErroror]").html(codeValue['message'] || "未知错误");
-        $("[id=registerError]").show();
-      }
-    });
-  } else {
-    $("[id=registerError]").html("手机号错误,请确认!");
-    $("[id=registerError]").show();
-  }
-}
-
-
-
-
-
-           
+        

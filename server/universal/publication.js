@@ -15,11 +15,20 @@ Meteor.publish("creditLists", function(options) {
   console.log("companyStatus: " + companyStatus)
 
   if(keywords) {
-    return Credit.find({companyName: new RegExp(keywords), companyStatus: companyStatus}, {fields: {basicDetail: 0, annualCheckLists: 0}});
+    return Credit.find({
+      companyName: new RegExp(keywords), 
+      companyStatus: companyStatus
+    }, {
+      fields: {
+        basicDetail: 0,
+        annualCheckLists: 0
+      }
+    });
   } else {
     return Credit.find({companyName: "companyName"})
   }
 })
+ 
  
 Meteor.publish("creditRecords", function(options) {
   var keywords = options.keywords || "";

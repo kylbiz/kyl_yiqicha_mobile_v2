@@ -36,17 +36,6 @@ function codeVerification(phone, code, timestamp) {
   }
 }
 
-//----------------------------------------------------
-
-function verifyPhone(phone) {
-  var phoneReg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 
-  if(!phoneReg.test(phone)) {
-    return false;
-  } else {
-    return true;
-  }
-} 
-
 
 //----------------------------------------------------
 
@@ -298,8 +287,10 @@ function RegistrationNotify(options) {
   } else {
     var phone = options.phone;
     var userId = options.userId;
-    var detail = "欢迎 " + phone + " 注册一企查账户，我们将用心提供优质的企业服务，给您带来温馨的体验，欢迎访问我们的官网：http://www.kyl.biz 获取更多信息！\n"
-    + "祝您体验愉快!"
+    var detail = "欢迎 " + phone
+      + " 注册一企查账户，我们将用心提供优质的企业服务，给您带来温馨的体验，" 
+      + "欢迎访问我们的官网：http://www.kyl.biz 获取更多信息！\n"
+      + "祝您体验愉快!"
 
     var message = {
       from: "一企查优质企业服务",
@@ -323,140 +314,4 @@ function RegistrationNotify(options) {
     })
   }
 }
-
-//----------------------------------------------------
-
-
-Meteor.methods({
-  'updateProfile': function(profileOptions) {
-    function checkEmail(str){
-      var re = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
-      if(re.test(str)){
-        return true;
-      }else{
-        return false;
-      }
-    }
-    if(profileOptions) {
-      var nickname = profileOptions.nickname;
-      var email = profileOptions.email;
-      if(nickname.length >= 3 || checkEmail(email)) {
-        Meteor.users.update({_id: Meteor.userId()}, {
-          $set: {
-            'profile.nickname': nickname || "",
-            'profile.email': email || ""
-          }
-        }, function(err) {
-          if(err) {
-            log('update user profile error');
-          } else {
-            log('update user profile succeed');
-          }
-        })
-      }
-    }
-  }
-})
-
-//----------------------------------------------------
-
-function userExists(phone) {
-  if(verifyPhone(phone) && Meteor.users.findOne({username: phone})) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-
-Meteor.methods({
-  'passwordGenerateCode': function(phone) {
-    console.log('passwordGenerateCode')
-    var phoneLegal = verifyPhone(phone) || false;
-
-    function passworduserCodeGenerator( callback){
-      var codeValue = {};
-      log('phoneLegal', phoneLegal, 'codeGenerateLegal', codeGenerateLegal(phone))
-      var codeGenerateFlag = codeGenerateLegal(phone);
-      if(phoneLegal && userExists(phone) && codeGenerateFlag) {
-        var randomCode = randomWord(true, 4, 4);
-        var timestamp = moment().format('YYYYMMDDHHmmss'); //时间戳
-        var accountSid= '8a48b5514a9e4570014a9f056aa300ec'; //Account Sid
-        var accountToken = '0fe4efa3c2c54a0eb91dbac340aa49cf'; //Account Token
-        var appId = '8a48b5514a9e4570014a9f1ac45b0115'
-        var auth = accountSid + ':' + timestamp;
-        var a = new Buffer(auth).toString('base64');
-        var content = accountSid + accountToken + timestamp;
-        var md5 = crypto.createHash('md5');
-        md5.update(content);
-        var sig = md5.digest('hex').toUpperCase();
-
-        UserCode.update({phone: phone}, {
-          $set: {
-            phone: phone,
-            code: randomCode,
-            createTime: Date.now(),
-            codeType: 'codeVefify',
-            used: false, // verify if the code been used
-          },
-          $inc: {times: 1}
-        }, {
-          upsert: true
-        }, function(err) {
-          if(err) {
-            log('update verification code error');
-          } else {
-            log('update codeVerification code succeed.');
-          }
-        });
-
-        HTTP.call("POST", "https://sandboxapp.cloopen.com:8883/2013-12-26/Accounts/"+accountSid+"/SMS/TemplateSMS?sig="+sig,{"data":{"to":phone,"appId":""+appId+"","templateId":"11559","datas":[randomCode,"3"]},"headers":{"Accept":"application/json","content-type":"application/json;charset=UTF-8","Authorization":a}},
-          function (err, result) {
-            if(err) {
-              log('send verification code error', err);
-              codeValue = {
-                codestatus: 0,
-                message: "发送验证码失败"
-              }              
-              callback(err, codeValue);
-            } else {
-              log('send verification code succeed');
-              codeValue = {
-                codestatus: 1,
-                message: "验证码发送成功!"
-              }
-              callback(null, codeValue);
-            }
-          });                
-        } else if(!phoneLegal) {
-          codeValue =   {
-            codestatus: 0,
-            message: "用户手机不合法，请确认！"
-          }
-          callback(null, codeValue);
-        } else if(!userExists(phone)) {
-          codeValue ={
-            codestatus: 0,
-            message: "该用户不存在，请确认！"
-          }
-          callback(null, codeValue);
-        } else if(!codeGenerateLegal)    {
-          codeValue = {
-            codestatus: 0,
-            message: "提交太频繁，请一分钟之后再提交！"
-          }
-          callback(null, codeValue);
-        } else  {
-          codeValue = {
-            codestatus: 0,
-            message: "发送验证码失败，请一分钟后重新尝试！"
-          }
-          callback(null, codeValue);
-        }
-    }
-    var PasswordUserCodeHandle = Async.wrap(passworduserCodeGenerator);
-    var response = PasswordUserCodeHandle();
-    return response;
-  }  
-});
 

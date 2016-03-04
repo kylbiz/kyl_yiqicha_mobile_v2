@@ -14,6 +14,18 @@ logError = function(info) {
   }
 }
 
+
+//----------------------------------------------------
+
+verifyPhone = function(phone) {
+  var phoneReg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 
+  if(!phoneReg.test(phone)) {
+    return false;
+  } else {
+    return true;
+  }
+} 
+
 // var url = 'http://192.168.1.142:8003/WordGenerator?wsdl';
 // var args = {name: 'value'};
 
