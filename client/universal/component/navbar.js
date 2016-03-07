@@ -5,13 +5,14 @@ Template.navbar_title.helpers({
 });
 
 Template.back_navbar.onCreated(function(){
-    initiator = 'back';
+    //initiator = 'back';
 });
 
 Template.back_navbar.onRendered(function(){
   
   $(document).on("click",".icon-back.router",function(event) {  
-    nextInitiator = 'back';
+    //nextInitiator = 'back';
+    initiator = 'back';
     var source = $(event.target).attr("href");
     if(source==undefined||source=="#") {   
       history.back();   
@@ -23,13 +24,14 @@ Template.back_navbar.onRendered(function(){
 });
 
 Template.render_back_navbar.onCreated(function(){
-    initiator = 'back';
+    //initiator = 'back';
 });
 
 Template.render_back_navbar.onRendered(function(){
   
   $(document).on("click",".icon-back.reload",function(event) {  
-    nextInitiator = 'back';
+    //nextInitiator = 'back';
+    initiator = 'back';
     FlowRouter.reload();
     return false;
   });    
