@@ -1,0 +1,35 @@
+<Template name="message">
+{{#if messageLists}}
+  <div class="list-block message load_content">
+    <ul>
+      {{#each messageLists}}
+      <li class="item-content messageItem" data-messageid="{{_id}}">     
+        <div class="item-inner">
+  
+          <div class="item-box">
+            <div class="item-media">
+              <i class="icon icon-success"></i>
+            </div>                 
+            <div class="item-title">
+              <span>{{title}}</span>
+              <span>{{summary}}</span>  
+            </div>            
+          </div>                                   
+          <div class="item-after">
+            {{createTime}}
+          </div>
+        </div>
+      </li>
+      {{/each}}       
+    </ul>
+  </div>  
+{{/if}}
+
+{{#unless messageLists}}
+  {{#notify_template title="状态提醒" icon_name="icon-alert"}}
+    <p class="text-center">
+      暂时没有相关内容  
+    </p>    
+  {{/notify_template}}
+{{/unless}}
+</Template>

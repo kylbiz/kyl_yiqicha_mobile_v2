@@ -94,6 +94,9 @@ Template.search_list.helpers({
       && currentListsNum <= (Math.floor(creditNum / 5)) * 5) {
       hasNext = true;
     }
+    if(creditNum === 0) {
+      hasNext = false;
+    }
     return hasNext;
   }
 });
@@ -151,24 +154,3 @@ Template.search_list.events({
     }
   }
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

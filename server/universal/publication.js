@@ -15,11 +15,20 @@ Meteor.publish("creditLists", function(options) {
   console.log("companyStatus: " + companyStatus)
 
   if(keywords) {
-    return Credit.find({companyName: new RegExp(keywords), companyStatus: companyStatus}, {fields: {basicDetail: 0, annualCheckLists: 0}});
+    return Credit.find({
+      companyName: new RegExp(keywords), 
+      companyStatus: companyStatus
+    }, {
+      fields: {
+        basicDetail: 0,
+        annualCheckLists: 0
+      }
+    });
   } else {
     return Credit.find({companyName: "companyName"})
   }
 })
+ 
  
 Meteor.publish("creditRecords", function(options) {
   var keywords = options.keywords || "";
@@ -29,7 +38,7 @@ Meteor.publish("creditRecords", function(options) {
 
 Meteor.publish("userRecords", function(options) {
   var userId = options.userId || "";
-  return SearchRecords.find({userId: userId, valid: true}, {
+  return SearchRecords.find({userId: userId, removed: true}, {
     fields: {keywords: 1, createTime: 1, userId: userId}, 
     sort: {createTime: -1}
   });
@@ -45,3 +54,13 @@ Meteor.publish("getCheckLists", function(userId) {
   return CheckName.find({userId: userId, removed: false});
 })
 
+Meteor.publish("getMessageLists", function(userId) {
+  return Messages.find({
+    toUserId: userId,
+    removed: false
+  }, {
+    fields: {
+      detail: 0
+    }
+  });
+})

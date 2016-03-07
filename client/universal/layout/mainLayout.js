@@ -1,3 +1,5 @@
+BlazeLayout.setRoot('body');
+
 Session.setDefault("title", "企业自助查询系统");
 
 var ANIMATION_DURATION = 300;

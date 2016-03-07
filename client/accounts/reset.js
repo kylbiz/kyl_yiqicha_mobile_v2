@@ -62,11 +62,13 @@ Template.reset.onRendered(function(){
     });
   
 })
+
 Template.reset.helpers({
   'codeTime': function(){
    return Session.get('codeTime');
   }
 });
+
 
 Template.reset.events({
   "click #send":function(){    
@@ -102,17 +104,6 @@ Template.reset.onRendered(function(){
   }, 1000);   
 })
 
-
-//--------------------------------------------------------------
-//验证手机号码
-function verifyPhone(phone) {
-  var phoneReg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
-  if (!phoneReg.test(phone)) {
-    return false;
-  } else {
-    return true;
-  }
-}
 //--------------------------------------------------------------
 
 Template.reset.events({
