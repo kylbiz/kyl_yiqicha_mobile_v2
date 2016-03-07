@@ -61,6 +61,9 @@ Meteor.publish("getMessageLists", function(userId) {
   }, {
     fields: {
       detail: 0
+    },
+    sort: {
+      createTime: -1
     }
   });
 })

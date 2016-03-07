@@ -3,6 +3,7 @@ Meteor.methods({
     log("CreateCheckName: Hi I was called.");
     if(!options
       || !options.hasOwnProperty("checkname")
+      || !CheckUtil.verifyCheckName(options.checkname)
       || !Meteor.userId()
       || Meteor.userId() !== options.userId
       || !options.hasOwnProperty("messageNotify")) {
@@ -20,9 +21,9 @@ Meteor.methods({
           nameStatus: "等待查询",
           removed: false,
           messageNotify: messageNotify,
-          searchedTimes: 1,
-          beginSearchTime: 1,
-          latestSearchTime: 1,
+          searchedTimes: 0,
+          beginSearchTime: new Date(),
+          latestSearchTime: new Date(),
           searchFinished: false
         }
       }, {
@@ -31,7 +32,21 @@ Meteor.methods({
         if(err) {
           logError("CreateCheckName: add checkname: " + checkname + " error.", err);
         } else {
-          log("CreateCheckName: add checkname: " + checkname + " succeed.");          
+          log("CreateCheckName: add checkname: " + checkname + " succeed.");    
+
+        var checkOptions = {
+          userId: userId,
+          checkname: checkname
+        };
+
+        // 初始化核名信息
+        CheckUtil.InitCreditName(checkOptions, function(err, result) {
+            if(err) {
+              log("CreateCheckName: init checkname " + checkname + " error.", err);
+            } else {
+              log("CreateCheckName: init checkname " + checkname + " succeed.");
+            }
+        })
         }
       })
     }
@@ -78,5 +93,10 @@ Meteor.methods({
     }
   }
 })
+
+
+
+
+
 
 
