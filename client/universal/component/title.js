@@ -1,39 +1,37 @@
-Template.login.onCreated(function(){
+Template.login.onRendered(function(){
   Session.set("title","登录");
 })
-Template.register.onCreated(function(){
+Template.register.onRendered(function(){
   Session.set("title","注册");
 });
-Template.reset.onCreated(function(){
+Template.reset.onRendered(function(){
   Session.set("title","重置密码");
 });
-Template.modify.onCreated(function(){
-  Session.set("title","修改密码");
-});
 
-Template.home.onCreated(function(){
+Template.home.onRendered(function(){
   Session.set("title","企业自助查询系统");
 });
-Template.message.onCreated(function(){
+
+Template.message.onRendered(function(){
   Session.set("title","通知");
 });
-Template.usercenter.onCreated(function(){
+Template.usercenter.onRendered(function(){
   Session.set("title","个人中心");
 });
-Template.about.onCreated(function(){
+Template.about.onRendered(function(){
   Session.set("title","关于一企查");
 });
-Template.userinfo.onCreated(function(){
+Template.userinfo.onRendered(function(){
   Session.set("title","详情");
 });
-Template.history.onCreated(function(){
+Template.history.onRendered(function(){
   Session.set("title","查询记录");
 });
 
-Template.application.onCreated(function(){
+Template.application.onRendered(function(){
   Session.set("title","名称状态提醒");
 });
-Template.application_empty.onCreated(function(){
+Template.application_empty.onRendered(function(){
   Session.set("title","名称状态提醒")
 })
 
