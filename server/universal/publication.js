@@ -54,6 +54,12 @@ Meteor.publish("getCheckLists", function(userId) {
   return CheckName.find({userId: userId, removed: false});
 })
 
+Meteor.publish("getCheckName", function(options) {
+  var userId = options.userId || "";
+  var cid = options.cid || "";  
+  return CheckName.find({_id: cid, userId: userId, removed: false});
+})
+
 Meteor.publish("getMessageLists", function(userId) {
   return Messages.find({
     toUserId: userId,

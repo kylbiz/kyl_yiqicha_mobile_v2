@@ -35,9 +35,6 @@ Template.application_empty.onRendered(function(){
   Session.set("title","名称状态提醒")
 })
 
-Template.application_create_group.onRendered(function(){
-  Session.set("title","增加名称");
-});
 Template.application_create.onRendered(function(){
   Session.set("title","增加名称");
 });

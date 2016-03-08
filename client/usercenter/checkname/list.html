@@ -19,11 +19,13 @@
           {{/each}}
         {{else}}
           {{#each checkLists}}
-            <li class="item-content item-link card" data-path="status">        
+            <li class="item-content item-link card">  
+            <a  class="item-content" href="/checkname?cid={{_id}}">
               <div class="item-inner">
                 <div class="item-title">{{checkname}}</div>
                 <div class="item-after">{{nameStatus}}</div>
               </div>         
+            </a>      
             </li>
           {{/each}}                    
         {{/if}}                       
