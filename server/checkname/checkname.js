@@ -22,6 +22,8 @@ Meteor.methods({
           removed: false,
           messageNotify: messageNotify,
           searchedTimes: 0,
+          checkPoint: 0, //0提交——1审核——2领证
+          checkStatus: 0, //0当前为不确定--1成功--2失败--3提交时已存在名字的情况
           beginSearchTime: new Date(),
           latestSearchTime: new Date(),
           searchFinished: false

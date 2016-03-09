@@ -15,6 +15,29 @@ logError = function(info) {
 }
 
 //----------------------------------------------------
+/**
+ * randomWord, generate randomword
+ * Refered: http://www.xuanfengge.com/js-random.html
+ */
+ 
+randomWord = function(randomFlag, min, max){
+    var str = "",
+        range = min,
+        arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+ 
+    // 随机产生
+    if(randomFlag){
+        range = Math.round(Math.random() * (max-min)) + min;
+    }
+    for(var i=0; i<range; i++){
+        pos = Math.round(Math.random() * (arr.length-1));
+        str += arr[pos];
+    }
+    return str;
+}
+
+
+//----------------------------------------------------
 
 verifyPhone = function(phone) {
   var phoneReg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 
@@ -24,6 +47,14 @@ verifyPhone = function(phone) {
     return true;
   }
 } 
+//----------------------------------------------------
+// 发送手机信息
+var crypto =  Meteor.npmRequire('crypto');
+var accountSid= '8a48b5514a9e4570014a9f056aa300ec'; //Account Sid
+var accountToken = '0fe4efa3c2c54a0eb91dbac340aa49cf'; //Account Token
+var appId = '8a48b5514a9e4570014a9f1ac45b0115'
+
+
 
 //----------------------------------------------------
 var Crawler = Meteor.npmRequire('mycrawl').Crawler;
@@ -44,7 +75,7 @@ var nameStatusOptions = {
 
 var Fiber = Npm.require('fibers');
 var maxSearchTimes = 80;
-
+var maxValidDate = 10;
 
 CheckUtil = {};
 
@@ -76,15 +107,15 @@ CheckUtil._verifyNamePart = function(checkname, typeArray) {
 CheckUtil.verifyCheckName = function(checkname) {
   log("verifyCheckName: Hi I am called.", "checkname: " + checkname);
   var self = this;
-  var checkstatus = true;
+  var statusflag = true;
 
   if(!checkname
     || typeof(checkname) !== "string"
     || checkname.length < 6
     || !self._verifyNamePart(checkname, companyTypeLists)){
-    checkstatus = false;
+    statusflag = false;
   }
-  return checkstatus;
+  return statusflag;
 }
 
 //----------------------------------------------------
@@ -125,6 +156,9 @@ CheckUtil.InitCreditName = function(options, callback) {
   callback("InitCreditName: options illegal", null);
   } else {  
     var self = this;
+    var checkPoint = 0;
+    var checkStatus = 0;
+
     var checkname = options.checkname || "";
     var userId = options.userId || "";
     self.checkCreditName(checkname, function(err, result) {
@@ -135,6 +169,11 @@ CheckUtil.InitCreditName = function(options, callback) {
         var allpageNo = result.allpageNo || 0;
         if(allpageNo !== 0) {
           log("InitCreditName: checkname: " + checkname + " exits credit information");
+
+          checkPoint = 0;
+          checkStatus = 3;
+
+
           Fiber(function() {
             CheckName.update({
               checkname: checkname,
@@ -142,6 +181,8 @@ CheckUtil.InitCreditName = function(options, callback) {
             }, {
               $set: {
                 nameStatus: "已经存该名称的公司",
+                checkPoint: checkPoint, //提交审核阶段
+                checkStatus: checkStatus, // 提交时已存在名字的情况
                 latestSearchTime: new Date(),
                 searchFinished: true
               },
@@ -170,7 +211,7 @@ CheckUtil.InitCreditName = function(options, callback) {
             detail: "已经存该名称的公司"
           }
 
-          self.sendMsg(message);
+          self.sysMsg(message);
 
 
         } else {
@@ -186,14 +227,33 @@ CheckUtil.InitCreditName = function(options, callback) {
               log(statusInfo)
 
               if(statuscode === 0) {
-                nameStatus = "目前没有核名信息"
+                nameStatus = "目前没有核名信息";
+                checkPoint = 0;
+                checkStatus = 0;
               } else if(statuscode === 1) {
                 nameStatus = statusInfo.companynameInfo[0].applayStatus || "目前没有核名信息";
+              } else if(statuscode === 2) {
+                nameStatus = statusInfo.companynameInfo[0].applayStatus || "目前多余一条核名信息";
               }
 
               var searchFinished = false;
               if(nameStatus === "核准，可取") {
                 searchFinished = true;
+                checkPoint = 2;
+                checkStatus = 1;
+              } else if(nameStatus === "审查中") {
+                checkPoint = 1;
+
+                var acceptedDate = new Date(statusInfo.companynameInfo[0].acceptedDate);
+                //TODO
+
+                var validateDate = moment().subtract(maxValidDate, 'days');
+                if(acceptedDate < validateDate) {
+                  checkStatus = 1;
+                  searchFinished = true;
+                } else {
+                  checkStatus = 0;
+                }
               }
 
               // 更新核名信息
@@ -204,6 +264,8 @@ CheckUtil.InitCreditName = function(options, callback) {
                 }, {
                   $set: {
                     nameStatus: nameStatus,
+                    checkPoint: checkPoint,
+                    checkStatus: checkStatus,
                     latestSearchTime: new Date(),
                     searchFinished: searchFinished
                   },
@@ -232,7 +294,7 @@ CheckUtil.InitCreditName = function(options, callback) {
                 detail: nameStatus
               }
 
-              self.sendMsg(message);
+              self.sysMsg(message);
 
             }
           });
@@ -243,10 +305,199 @@ CheckUtil.InitCreditName = function(options, callback) {
   }
 }
 
+
 //----------------------------------------------------
 
-CheckUtil.sendMsg = function(options) {
-  log("sendMsg: Hi I am called.");
+CheckUtil.maintainName = function() {
+  log("maintainName: maintain checkname starts.");
+
+  var date = moment(new Date());
+  var latestValidTime = date.subtract(0.5, "hours").toDate()
+  var beginValidTime = date.add(12, "days").toDate();
+
+  var checkOptions = {
+    removed: false,
+    searchFinished: false,
+    searchedTimes: {
+      "$lt": maxSearchTimes
+    },
+    latestSearchTime: {
+      "$lte": latestValidTime
+    },
+    beginSearchTime: {
+      "$lte": beginValidTime
+    }
+  }
+
+  var nameLists = CheckName.find(checkOptions).fetch();
+
+  var getNameCheck = setInterval(function() {
+    var nameObj = nameLists.pop();
+
+    if(!nameObj) {
+      clearInterval(getNameCheck);
+    } else {
+
+      var checkname = nameObj.checkname;
+      var userId = nameObj.userId;
+      var nameStatus = nameObj.nameStatus;
+      var searchedTimes = nameObj.searchedTimes || maxSearchTimes;
+      var messageNotify = nameObj.messageNotify || false;
+      var checkPoint = nameObj.checkPoint;
+      var checkStatus = nameObj.checkStatus;
+
+      // 不存在公司，查询核名信息
+      crawler.searchCompanyNameStatus(nameStatusOptions, checkname, function(err, statusInfo) {
+        if(err) {
+          log("maintainName: get statusInfo abount " + checkname  + " error.", err);
+        } else {
+          var sendMsgFlag = false; // 是否发送短信
+
+          var statuscode = statusInfo.statuscode || 0;
+          var newNameStatus = "";
+
+          // var searchFinished = false;
+          // if(nameStatus === "核准，可取") {
+          //   searchFinished = true;
+          //   checkPoint = 2;
+          //   checkStatus = 1;
+          // } else if(nameStatus === "审查中") {
+          //   checkPoint = 1;
+
+          //   var acceptedDate = new Date(statusInfo.companynameInfo[0].acceptedDate);
+          //   //TODO
+
+          //   var validateDate = moment().subtract(maxValidDate, 'days');
+          //   if(acceptedDate < validateDate) {
+          //     checkStatus = 1;
+          //     searchFinished = true;
+          //   } else {
+          //     checkStatus = 0;
+          //   }
+          // }
+
+
+
+         if(statuscode >= 1) {
+            newNameStatus = statusInfo.companynameInfo[0].applayStatus;
+          }
+
+          if(newNameStatus === "") {
+            newNameStatus = nameStatus;        
+          }
+
+          if(newNameStatus === "审查中") {
+            checkPoint = 1;
+            var acceptedDate = new Date(statusInfo.companynameInfo[0].acceptedDate);
+            var validateDate = moment().subtract(maxValidDate, 'days');
+            if(acceptedDate < validateDate) {
+              checkStatus = 1;
+              searchFinished = true;
+            } else {
+              checkStatus = 0;
+            }
+          }
+
+          var searchFinished = false;
+          if(newNameStatus === "核准，可取" || newNameStatus === "已经存该名称的公司") {
+            searchFinished = true;
+            sendMsgFlag = true;
+            checkPoint = 2;
+            checkStatus = 1;
+          }
+
+
+
+          if(!messageNotify) {
+            sendMsgFlag = false;
+          }
+
+          if(searchedTimes >= maxSearchTimes) {
+            searchFinished = true;
+            checkStatus = 2;
+          }
+
+          // 更新核名信息
+          Fiber(function() {
+            CheckName.update({
+              checkname: checkname,
+              userId: userId
+            }, {
+              $set: {
+                nameStatus: newNameStatus,
+                checkPoint: checkPoint,
+                checkStatus: checkStatus,
+                latestSearchTime: new Date(),
+                searchFinished: searchFinished
+              },
+              $inc: {
+                searchedTimes: 1
+              }
+            }, function(err) {
+              if(err) {
+                log("maintainName: get statusInfo abount: " + checkname + " error.", err);
+              } else {
+                log("maintainName: get statusInfo abount " + checkname + " succeed.");
+             }
+            })
+          }).run();   
+
+          if(newNameStatus !== nameStatus) {
+            // 发送消息核名
+            if(statuscode === 1) {
+              var message = {
+                from: "系统消息",
+                toUserId: userId,
+                title: checkname,
+                subtitle: checkname,
+                type: "system",
+                summary: nameStatus,
+                detail: nameStatus
+              }
+
+              self.sysMsg(message);
+            }
+          }
+
+          if(searchedTimes === maxSearchTimes -1) {
+              var message = {
+                from: "系统消息",
+                toUserId: userId,
+                title: checkname,
+                subtitle: checkname,
+                type: "system",
+                summary: "查询结束，没有新的消息了",
+                detail: "查询结束，没有新的消息了"
+              }
+
+              self.sysMsg(message);             
+          }
+
+          // 发送手机短信
+          if(sendMsgFlag) {
+            var msgOptions = {
+              nameStatus: newNameStatus,
+              toUserId: userId,
+              checkname: checkname
+            }
+            self.mobileMsg(options);
+          }
+
+        }
+      });   
+
+      if(nameLists.length === 0) {
+        clearInterval(getNameCheck)
+      }
+      
+    }
+  }, 5* 1000); 
+}
+
+//----------------------------------------------------
+
+CheckUtil.sysMsg = function(options) {
+  log("sysMsg: Hi I am called.");
 
   if(!options
     || !options.hasOwnProperty("from")
@@ -254,7 +505,7 @@ CheckUtil.sendMsg = function(options) {
     || !options.hasOwnProperty("title")
     || !options.hasOwnProperty("summary")
     || !options.hasOwnProperty("type")) {
-    log("sendMsg: options illegal.", options);
+    log("sysMsg: options illegal.", options);
   } else {
     var from = options.from || "系统消息"; 
     var title = options.title || "";
@@ -304,140 +555,58 @@ CheckUtil.sendMsg = function(options) {
     Fiber(function() {
       Messages.insert(message, function(err) {
         if(err) {
-          logError("sendMsg: send message to : " + toUserId  + " error.", err);
+          logError("sysMsg: send message to : " + toUserId  + " error.", err);
         } else {
-          log("sendMsg: send message to : " + toUserId  + " succeed.")
+          log("sysMsg: send message to : " + toUserId  + " succeed.")
         }
       })
     }).run();
   }
 }
-
 //----------------------------------------------------
 
-CheckUtil.maintainName = function() {
-  log("maintainName: maintain checkname starts.");
+CheckUtil.mobileMsg = function(options) {
+  log("mobileMsg: Hi I am called.");
 
-  var date = moment(new Date());
-  var latestValidTime = date.subtract(0.5, "hours").toDate()
-  var beginValidTime = date.add(12, "days").toDate();
+  if(!options
+    || !options.hasOwnProperty("toUserId")
+    || !options.hasOwnProperty("checkname")
+    || !options.hasOwnProperty("nameStatus")) {
+    log("mobileMsg: options illegal.", options);
+  } else {  
+    var self = this;
+    var toUserId = options.toUserId;
+    var checkname = options.checkname || "";
+    var nameStatus = options.nameStatus;
 
-  var checkOptions = {
-    removed: false,
-    searchFinished: false,
-    searchedTimes: {
-      "$lt": maxSearchTimes
-    },
-    latestSearchTime: {
-      "$lte": latestValidTime
-    },
-    beginSearchTime: {
-      "$lte": beginValidTime
+    if(self.verifyCheckName(checkname) 
+      && toUserId) {
+      var user = Meteor.users.findOne({_id: toUserId});
+
+      if(user && user.hasOwnProperty("username")) {
+        var phone = user.username;
+
+        var randomCode = randomWord(true, 4, 4);
+        var timestamp = moment().format('YYYYMMDDHHmmss'); //时间戳
+        var auth = accountSid + ':' + timestamp;
+        var a = new Buffer(auth).toString('base64');
+        var content = accountSid + accountToken + timestamp;
+        var md5 = crypto.createHash('md5');
+        md5.update(content);
+        var sig = md5.digest('hex').toUpperCase();
+
+        HTTP.call("POST", "https://sandboxapp.cloopen.com:8883/2013-12-26/Accounts/"+accountSid+"/SMS/TemplateSMS?sig="+sig,{"data":{"to":phone,"appId":""+appId+"","templateId":"11559","datas":[randomCode,"3"]},"headers":{"Accept":"application/json","content-type":"application/json;charset=UTF-8","Authorization":a}},
+          function (err, result) {
+            if(err) {
+              log('send verification code error', err);            
+            } else {
+              log('send verification code succeed');
+            }
+          }); 
+
+      }
+
     }
   }
-
-  var nameLists = CheckName.find(checkOptions).fetch();
-
-  var getNameCheck = setInterval(function() {
-    var nameObj = nameLists.pop();
-
-    if(!nameObj) {
-      clearInterval(getNameCheck);
-    } else {
-
-      var checkname = nameObj.checkname;
-      var userId = nameObj.userId;
-      var nameStatus = nameObj.nameStatus;
-      var searchedTimes = nameObj.searchedTimes || maxSearchTimes;
-
-      // 不存在公司，查询核名信息
-      crawler.searchCompanyNameStatus(nameStatusOptions, checkname, function(err, statusInfo) {
-        if(err) {
-          log("maintainName: get statusInfo abount " + checkname  + " error.", err);
-        } else {
-          var statuscode = statusInfo.statuscode || 0;
-          var newNameStatus = "";
-
-         if(statuscode === 1) {
-            newNameStatus = statusInfo.companynameInfo[0].applayStatus;
-          }
-
-          if(newNameStatus === "") {
-            newNameStatus = nameStatus;
-          }
-
-          var searchFinished = false;
-          if(newNameStatus === "核准，可取" || newNameStatus === "已经存该名称的公司") {
-            searchFinished = true;
-          }
-
-          if(searchedTimes >= maxSearchTimes) {
-            searchFinished = true;
-          }
-
-          // 更新核名信息
-          Fiber(function() {
-            CheckName.update({
-              checkname: checkname,
-              userId: userId
-            }, {
-              $set: {
-                nameStatus: newNameStatus,
-                latestSearchTime: new Date(),
-                searchFinished: searchFinished
-              },
-              $inc: {
-                searchedTimes: 1
-              }
-            }, function(err) {
-              if(err) {
-                log("maintainName: get statusInfo abount: " + checkname + " error.", err);
-              } else {
-                log("maintainName: get statusInfo abount " + checkname + " succeed.");
-             }
-            })
-          }).run();   
-
-          if(newNameStatus !== nameStatus) {
-            // 发送消息核名
-            if(statuscode === 1) {
-              var message = {
-                from: "系统消息",
-                toUserId: userId,
-                title: checkname,
-                subtitle: checkname,
-                type: "system",
-                summary: nameStatus,
-                detail: nameStatus
-              }
-
-              self.sendMsg(message);
-            }
-          }
-
-          if(searchedTimes === maxSearchTimes -1) {
-              var message = {
-                from: "系统消息",
-                toUserId: userId,
-                title: checkname,
-                subtitle: checkname,
-                type: "system",
-                summary: "查询结束，没有新的消息了",
-                detail: "查询结束，没有新的消息了"
-              }
-
-              self.sendMsg(message);             
-          }
-
-        }
-      });   
-
-      if(nameLists.length === 0) {
-        clearInterval(getNameCheck)
-      }
-      
-    }
-  }, 5* 1000); 
 }
 
-//----------------------------------------------------

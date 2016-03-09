@@ -8,7 +8,16 @@
   
           <div class="item-box">
             <div class="item-media">
-              <i class="icon icon-success"></i>
+              {{#if $eq "system" type}}
+                <i class="icon icon-system"></i>
+              {{/if}}
+              {{#if $eq "kylnotify" type}}
+                <i class="icon icon-kylnotify"></i>
+              {{/if}}
+              {{#if $eq "checkname" type}}
+                <i class="icon icon-checkname"></i>
+              {{/if}}              
+
             </div>                 
             <div class="item-title">
               <span>{{title}}</span>

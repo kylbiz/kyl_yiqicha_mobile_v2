@@ -1,13 +1,32 @@
-想法记录
--------
+Messages: 消息Collection, 有如下结构：
+-----------------
+```
+from : 消息来源
+toUserId: 消息接收对象userId
+toUserName: 消息接收对象userName
+title: 消息标题
+subtitle: 消息子标题
+summary: 消息摘要
+type: 消息类型，目前有三种： system(系统消息), checkname(核名消息), kylnotify(开业啦推送),
+detail: 消息详细内容
+removed: 消息是否被移除
+createTime: 消息发送时间
+```
 
-加载更多： 企业信息查询时，不能准确确认加载更多情形
 
-因此有如下三种情形，只选择其中一种情形进行抓取，
+CheckName: 用户提交用户核名的公司名称,包含如下参数
+-------------------
+```
+checkname: 用户提交的公司名称
+userId: 提交公司名称的用户ID
+nameStatus: 当前查询checkname查询结果
+removed: 用户是否清除查询
+messageNotify: 是否短信通知用户
+searchedTimes: 当前查询该 checkname 的次数
+checkPoint: 0提交——1审核——2领证
+checkStatus: 0当前为不确定--1成功--2失败--3提交时已存在名字的情况
 
-情形一： 上海 + 关键词（不包含上海，且大于2为字符）
-
-情形二： 关键词（不包含上海，且大于2位字符） + （上海）
-
-情形三： 关键字PART1 + 上海 + 关键字PART2
-
+beginSearchTime: 初始一次查询时间节点
+latestSearchTime: 最后一次查询时间节点
+searchFinished: 是否查询结束
+```

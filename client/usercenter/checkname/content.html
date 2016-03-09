@@ -3,30 +3,83 @@
   <div class="card main-card">
     <div class="card-title">{{checkObj.checkname}}</div>
     <div class="status-container">
-      <div class="box">
-        <div class="inner">
-           <div class="content">
-              <div><i class="icon icon-success"></i></div> 
-              <div>确立</div>                 
-           </div>        
-        </div>      
-      </div>
-      <div class="box">
-        <div class="inner">
-           <div class="content">
-              <div><i class="icon icon-success"></i></div> 
-              <div>已审核</div>               
-           </div>          
-        </div>      
-      </div>      
-      <div class="box">
+        <div class="box">
           <div class="inner">
-              <div class="content">
-                  <div><i class="icon icon-wait"></i></div>
-                  <div>领证</div>    
-              </div>             
-          </div>       
-      </div>      
+             <div class="content">
+              {{#if $eq 0 checkObj.checkPoint}}
+                  {{#if $eq 0 checkObj.checkStatus}}
+                    <div><i class="icon icon-wait"></i></div> 
+                    <div>正在提交</div>
+                  {{/if}}
+                  {{#if $eq 1 checkObj.checkStatus}}
+                    <div><i class="icon icon-success"></i></div> 
+                    <div>提交成功</div>
+                  {{/if}}  
+                  {{#if $eq 2 checkObj.checkStatus}}
+                    <div><i class="icon icon-danger"></i></div> 
+                    <div>提交失败</div>
+                  {{/if}}  
+                  {{#if $eq 3 checkObj.checkStatus}}
+                    <div><i class="icon icon-danger"></i></div> 
+                    <div>提交失败</div>              
+                  {{/if}}  
+              {{/if}}
+
+              {{#if $lt 0 checkObj.checkPoint}}
+                <div><i class="icon icon-success"></i></div> 
+                <div>提交成功</div>
+              {{/if}}
+             </div>        
+          </div>      
+        </div>
+
+
+        <div class="box">
+          <div class="inner">
+             <div class="content">
+                {{#if $eq 1 checkObj.checkPoint}}
+                  {{#if $eq 0 checkObj.checkStatus}}
+                    <div><i class="icon icon-wait"></i></div> 
+                    <div>正在审核</div>
+                  {{/if}}
+                  {{#if $eq 1 checkObj.checkStatus}}
+                    <div><i class="icon icon-success"></i></div> 
+                    <div>审核成功</div>
+                  {{/if}}  
+                  {{#if $eq 2 checkObj.checkStatus}}
+                    <div><i class="icon icon-danger"></i></div> 
+                    <div>审核失败</div>
+                  {{/if}}
+                {{else}}  
+                  {{#if $gt 1 checkObj.checkPoint}}
+                  <div><i class="icon icon-wait"></i></div> 
+                  <div>审核</div>
+                  {{/if}}
+
+                  {{#if $lt 1 checkObj.checkPoint}}
+                  <div><i class="icon icon-success"></i></div> 
+                  <div>审核成功</div>
+                  {{/if}}
+
+                {{/if}}
+             </div>        
+          </div>      
+        </div>
+
+        <div class="box">
+          <div class="inner">
+             <div class="content">
+                {{#if $lte 2 checkObj.checkPoint}}
+                  <div><i class="icon icon-success"></i></div> 
+                  <div>可领证</div>                  
+                {{else}}
+                  <div><i class="icon icon-wait"></i></div> 
+                  <div>领证</div>   
+                {{/if}}
+             </div>        
+          </div>      
+        </div>
+            
     </div>
   </div>
   <div class="content-block-title">通知方式</div>
