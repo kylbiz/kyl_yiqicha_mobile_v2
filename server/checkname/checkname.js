@@ -38,7 +38,8 @@ Meteor.methods({
 
         var checkOptions = {
           userId: userId,
-          checkname: checkname
+          checkname: checkname,
+          messageNotify: messageNotify
         };
 
         // 初始化核名信息
