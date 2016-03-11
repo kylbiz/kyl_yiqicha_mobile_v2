@@ -1,4 +1,9 @@
-
+/**
+ * 清除当前查询历史item
+ * @param {json} options 用户需提供当前操作的参数
+ * @attribute userId
+ * @attribute recordsIds Array 需要清楚查询记录的 record id
+ */
 Meteor.methods({
   "clearSearchItems": function(options) {
     log("clearSearchItems: Hi, I am calling!")
@@ -20,7 +25,7 @@ Meteor.methods({
             userId: userId
           }, {
             $set: {
-              removed: false
+              removed: true
             }
           },function(err) {
             if(err) {

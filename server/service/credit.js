@@ -10,6 +10,8 @@ var creditOptions =  {
 
 var Fiber = Npm.require('fibers');
 
+//----------------------------------------------------
+
 /**
  * 更新查询企业信用信息或行业信息次数
  */
@@ -31,6 +33,7 @@ function SearchTimesPlus(type) {
   })
 };
 
+//----------------------------------------------------
 
 /**
  * 初始化查询关键字记录
@@ -68,6 +71,8 @@ function InitSearchRecords(options) {
     })
   }
 }
+
+//----------------------------------------------------
 
 /**
  * 更新查询关键字记录
@@ -109,7 +114,14 @@ function UpdateSearchRecords(options) {
   }  
 }
 
+//----------------------------------------------------
 
+/**
+ * 查询字号所在企业信息，针对上海工商有效
+ * @param {json} options 查询字号所需参数，如下
+ * sid: 查询的当前流水
+ * keywords: 当前字号或企业名称
+ */
 Meteor.methods({
   "searchCredit": function(options) {
     log("searchCredit: Hi, I am calling.");
@@ -188,8 +200,14 @@ Meteor.methods({
   }
 })
 
-
-
+//----------------------------------------------------
+/**
+ * 获取更多工商信息
+ * @param {json} options 获取更多字号信息参数
+ * sid: 当前查询流水
+ * keywords: 当前查询字段
+ * nexPage: 下一页的页码
+ */
 Meteor.methods({
   "getMoreCredit": function(options) {
     log("getMoreCredit: Hi, I am calling.");
@@ -203,6 +221,7 @@ Meteor.methods({
       var keywords = options.keywords;
       var nextPage = options.nextPage || 1;
 
+      // 判断是否有下一页信息
       var record = SearchRecords.findOne({keywords: keywords, sid: sid});
 
       if(!record 

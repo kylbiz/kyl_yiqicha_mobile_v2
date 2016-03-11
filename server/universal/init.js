@@ -14,13 +14,13 @@ Meteor.startup(function() {
     })
   }
 
+  // 初始化查询有效关键字的核名信息
   CheckUtil.maintainName(); 
-
+  // 定时维护核名信息
   setInterval(function() {
     Fiber(function() {
       CheckUtil.maintainName();    
     }).run();
   }, checkPeriod)
-
 
 })

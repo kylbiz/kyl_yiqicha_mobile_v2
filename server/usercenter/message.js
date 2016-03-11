@@ -1,3 +1,8 @@
+/**
+ * 清楚系统消息
+ * 用户需要提供userId
+ * 以及需要清除的消息的id
+ */
 Meteor.methods({
   "clearMessages": function(options) {
     log("clearMessages: Hi, I am calling!")

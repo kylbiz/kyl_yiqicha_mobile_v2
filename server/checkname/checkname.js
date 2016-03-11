@@ -1,3 +1,10 @@
+/**
+ * 创建名称状态查询信息
+ * @param {json} options 名称状态查询信息所需参数，包含如下参数
+ * @attribute checkname
+ * @attribute userId
+ * @attribute messageNotify
+ */
 Meteor.methods({
   "CreateCheckName": function(options) {
     log("CreateCheckName: Hi I was called.");
@@ -57,7 +64,9 @@ Meteor.methods({
 })
 
 // -------------------------------------------------------
-
+/**
+ * 用户删除名称状态提醒
+ */
 Meteor.methods({
   "RemoveCheckName": function(options) {
     log("RemoveCheckName: Hi I was called.");
@@ -96,10 +105,3 @@ Meteor.methods({
     }
   }
 })
-
-
-
-
-
-
-
