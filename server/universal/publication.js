@@ -43,7 +43,7 @@ Meteor.publish("creditRecords", function(options) {
 // 获取用户查询记录
 Meteor.publish("userRecords", function(options) {
   var userId = options.userId || "";
-  return SearchRecords.find({userId: userId, removed: true}, {
+  return SearchRecords.find({userId: userId, removed: false}, {
     fields: {keywords: 1, createTime: 1, userId: userId}, 
     sort: {createTime: -1}
   });

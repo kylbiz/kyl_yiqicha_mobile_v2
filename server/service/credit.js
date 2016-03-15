@@ -52,9 +52,11 @@ function InitSearchRecords(options) {
       "sid":sid,
       "ready": false,
       "host": "YQCWX",
+      "removed": false,
       "createTime": new Date()
     }
 
+    log(options)
     if(Meteor.userId() 
       && options.hasOwnProperty("userId") 
       && Meteor.userId() === options.userId) {
@@ -138,9 +140,7 @@ Meteor.methods({
         keywords: keywords
       };
 
-      if(Meteor.userId() 
-        && options.hasOwnProperty("userId")
-        && Meteor.userId() === options.userId) {
+      if(Meteor.userId()) {
         initRecordOptions.userId = Meteor.userId();
       }
 
